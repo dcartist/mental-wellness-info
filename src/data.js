@@ -290,3 +290,243 @@ export var CAT_COLORS = {
   Demographics:"#1E40AF",Geography:"#065F46",Apps:"#065F46",
   Telehealth:"#1E40AF",Alternatives:"#5B21B6",Mindfulness:"#92400E"
 };
+
+/* ============================================================
+   DMV DATA — DC, Maryland, Virginia regional resources
+============================================================ */
+export var DMV = {
+
+  headline_stats: [
+    { val:"91%",   label:"Virginia localities are designated MH shortage areas", color:"#991B1B", src:"VMAP / CHKD 2024" },
+    { val:"22nd",  label:"Virginia's national MH ranking (down from 12th in 2024)", color:"#92400E", src:"Mental Health Virginia 2025" },
+    { val:"74%",   label:"Marylanders very concerned about MH access disparities", color:"#5B21B6", src:"MHAMD Survey 2023" },
+    { val:"29",    label:"DC Parks & Rec centers offering free wellness programming", color:"#065F46", src:"DC DPR 2024" },
+    { val:"48th",  label:"Virginia ranks 48th nationally for youth MH vs. access", color:"#991B1B", src:"VMAP 2024" },
+    { val:"14",    label:"Child psychiatrists per 100K children in Virginia", color:"#92400E", src:"CHKD VMAP 2024" }
+  ],
+
+  regional_stats: [
+    {
+      region:"Washington DC",
+      color:"#1E40AF",
+      stats:[
+        { label:"Wards with federally designated MH shortage areas", value:"7 of 8" },
+        { label:"Ward 7–8 residents without a nearby MH provider", value:"~85%" },
+        { label:"DC crisis line calls per year", value:"60,000+" },
+        { label:"Free DPR rec centers with wellness programming", value:"29" },
+        { label:"Uninsured adults in Ward 7–8", value:"~18%" },
+        { label:"Black residents in Ward 7–8", value:">90%" }
+      ],
+      context:"DC has significant geographic inequity — the Anacostia River divides well-resourced Wards 1–6 from severely underserved Wards 7–8. Faith communities are the primary mental health infrastructure east of the river."
+    },
+    {
+      region:"Maryland",
+      color:"#991B1B",
+      stats:[
+        { label:"Adults very concerned about MH access disparities", value:"74%" },
+        { label:"Prince George's County MH shortage designation", value:"Full county" },
+        { label:"MD residents who couldn't access needed MH care", value:"1 in 3" },
+        { label:"Top MD priorities: funding + criminal justice reform", value:"#1 and #2" },
+        { label:"MD Medicaid expansion MH coverage rate", value:"~89%" },
+        { label:"Montgomery County crisis center capacity", value:"Limited" }
+      ],
+      context:"Maryland's statewide survey found Prince George's County residents disproportionately represented in disparity concerns. Strong Medicaid coverage but geographic inequity between Montgomery/Howard and PG/Charles counties persists."
+    },
+    {
+      region:"Virginia",
+      color:"#065F46",
+      stats:[
+        { label:"Localities designated as MH shortage areas", value:"91%" },
+        { label:"National MH ranking (2025)", value:"22nd (↓ from 12th)" },
+        { label:"National youth MH access ranking", value:"48th" },
+        { label:"Child psychiatrists per 100K children", value:"14" },
+        { label:"Rural VA counties with zero MH providers", value:"~35%" },
+        { label:"VA crisis line (REACH VA) annual calls", value:"50,000+" }
+      ],
+      context:"Virginia dropped 10 spots in the national MH ranking from 2024 to 2025 — the steepest decline of any state. The rural provider desert is most acute in Southwest and Shenandoah Valley regions. Northern Virginia (Fairfax, Arlington, Alexandria) is better served but still faces waitlists."
+    }
+  ],
+
+  resources_dc: [
+    {
+      category:"Crisis Lines",
+      color:"#991B1B",
+      items:[
+        { name:"DC 988 Suicide and Crisis Lifeline", type:"Crisis line", cost:"Free", phone:"988", url:"https://dmhrecovery.org/", notes:"24/7; DC-specific call routing since 2022; multilingual" },
+        { name:"DC Department of Behavioral Health — ACCESS Helpline", type:"Crisis line", cost:"Free", phone:"1-888-793-4357", url:"https://dbh.dc.gov/service/access-helpline", notes:"24/7 crisis support, referrals, mobile crisis dispatch across all 8 wards" },
+        { name:"DC Crisis Intervention Team (CIT)", type:"Mobile crisis", cost:"Free", phone:"911 + request CIT", url:"https://dbh.dc.gov/", notes:"Co-responder model; trained officers + clinicians; active in all wards" }
+      ]
+    },
+    {
+      category:"Community Mental Health Centers",
+      color:"#1E40AF",
+      items:[
+        { name:"DC Department of Behavioral Health — DBH", type:"Clinical", cost:"Sliding scale / Medicaid", phone:"202-673-7440", url:"https://dbh.dc.gov/", notes:"Primary public MH system; serves all wards; operates or funds 20+ community sites" },
+        { name:"Community Connections", type:"Clinical + Peer", cost:"Sliding scale", phone:"202-745-5947", url:"https://communityconnectionsdc.org/", notes:"Wards 5–8 focus; trauma-informed care; supportive housing integration" },
+        { name:"So Others Might Eat (SOME)", type:"Integrated care", cost:"Free", phone:"202-797-8806", url:"https://some.org/", notes:"Ward 5/6 focus; MH integrated with food, housing, addiction recovery; BIPOC-centered" },
+        { name:"Unity Health Care", type:"FQHC", cost:"Sliding scale", phone:"202-745-4300", url:"https://unityhealthcare.org/", notes:"Multiple sites across Ward 1–8; integrated behavioral health in primary care" }
+      ]
+    },
+    {
+      category:"DC Parks & Recreation — Free Wellness",
+      color:"#065F46",
+      items:[
+        { name:"Anacostia Community Rec Center (Ward 8)", type:"Free programming", cost:"Free", phone:"202-645-0510", url:"https://dpr.dc.gov/", notes:"Free fitness classes, youth programs, senior activities; wellness programming year-round" },
+        { name:"Fort Stanton Rec Center (Ward 8)", type:"Free programming", cost:"Free", phone:"202-645-0573", url:"https://dpr.dc.gov/", notes:"One of the most underutilized Ward 8 resources; free classes, after-school MH support" },
+        { name:"Ferebee Hope Rec Center (Ward 7)", type:"Free programming", cost:"Free", phone:"202-576-8655", url:"https://dpr.dc.gov/", notes:"Youth-focused; free movement, mentorship, and wellness programming; walk-in" },
+        { name:"DC DPR — All 29 Rec Centers", type:"Free programming", cost:"Free", phone:"202-673-7647", url:"https://dpr.dc.gov/page/recreation-centers", notes:"All 29 centers across 8 wards offer free fitness, yoga, and wellness classes; no app lists all of them" }
+      ]
+    },
+    {
+      category:"Peer Support & Community Groups",
+      color:"#5B21B6",
+      items:[
+        { name:"NAMI DC Chapter", type:"Peer support", cost:"Free", phone:"202-546-0646", url:"https://namidc.org/", notes:"NAMI Family Support Groups, NAMI Connection Recovery, Peer-to-Peer classes; multiple DC locations" },
+        { name:"Narcotics Anonymous — DC Region", type:"Peer support", cost:"Free", phone:"202-399-5316", url:"https://dcna.org/", notes:"Daily meetings across all 8 wards including Ward 7/8; free; no sign-up required" },
+        { name:"AA — DC Intergroup", type:"Peer support", cost:"Free", phone:"202-966-9115", url:"https://www.aa-dc.org/", notes:"Hundreds of weekly meetings across DC; multilingual; in-person and online" },
+        { name:"DC LGBTQ+ Center — Mental Health Programs", type:"Peer support + Clinical", cost:"Free / low cost", phone:"202-682-2245", url:"https://thedccenter.org/", notes:"Support groups, peer counseling, and referrals specifically for LGBTQ+ residents" }
+      ]
+    },
+    {
+      category:"Faith-Based Resources (Wards 7, 8, PG County)",
+      color:"#92400E",
+      items:[
+        { name:"Black churches — grief ministries", type:"Faith-based peer support", cost:"Free", phone:"Varies", url:"", notes:"The single most robust alt-resource network east of the Anacostia. Historically Black churches in Wards 7/8 run grief ministries, addiction recovery, and community counseling — none listed in existing directories" },
+        { name:"St. Augustine's Catholic Church (Ward 2)", type:"Faith-based counseling", cost:"Free / donation", phone:"202-265-1470", url:"https://www.staugustine-dc.org/", notes:"Black Catholic community; grief support, addiction recovery, counseling referral ministry" },
+        { name:"Ward 7/8 Faith Network (informal)", type:"Faith-based peer support", cost:"Free", phone:"Via DBH", url:"https://dbh.dc.gov/", notes:"DBH has partnerships with Ward 7/8 congregations for community outreach; DBH can connect to local pastors doing MH referrals" }
+      ]
+    }
+  ],
+
+  resources_md: [
+    {
+      category:"Crisis Lines",
+      color:"#991B1B",
+      items:[
+        { name:"Maryland 988 Suicide and Crisis Lifeline", type:"Crisis line", cost:"Free", phone:"988", url:"https://988lifeline.org/", notes:"24/7; MD-routed; Spanish language line available; text and chat options" },
+        { name:"Prince George's County Crisis Center", type:"Crisis center", cost:"Free", phone:"301-864-7130", url:"https://www.princegeorgescountymd.gov/", notes:"Walk-in and phone; 24/7 crisis stabilization; serves uninsured" },
+        { name:"Montgomery County Crisis Center (CCSMC)", type:"Crisis center", cost:"Free / sliding scale", phone:"240-777-4000", url:"https://www.montgomerycareercenters.org/", notes:"24/7 walk-in and phone; bilingual Spanish; one of the best-resourced in the region" }
+      ]
+    },
+    {
+      category:"Community Mental Health Centers",
+      color:"#1E40AF",
+      items:[
+        { name:"Prince George's County Health Dept — Behavioral Health", type:"Clinical", cost:"Sliding scale / Medicaid", phone:"301-909-6389", url:"https://health.pgcountymd.gov/", notes:"Primary public MH system for PG County; serves uninsured at reduced cost; multiple sites" },
+        { name:"Montgomery County Behavioral Health Crisis Services", type:"Clinical + Crisis", cost:"Sliding scale", phone:"240-777-4000", url:"https://www.montgomerycountymd.gov/HHS-Program/DBHS/", notes:"Most comprehensive county MH system in MD; outpatient, crisis, peer support" },
+        { name:"Sheppard Pratt — MD Statewide", type:"Clinical", cost:"Insurance / sliding scale", phone:"410-938-3000", url:"https://www.sheppardpratt.org/", notes:"Largest private, nonprofit MH system in Maryland; outpatient sites across Baltimore, PG, and DC suburbs" },
+        { name:"Mental Health Association of Maryland (MHAMD)", type:"Advocacy + Peer", cost:"Free", phone:"410-235-1178", url:"https://www.mhamd.org/", notes:"Peer support, education, warmline; statewide advocacy for MH funding and access equity" }
+      ]
+    },
+    {
+      category:"Peer Support & Community Groups",
+      color:"#5B21B6",
+      items:[
+        { name:"NAMI Maryland", type:"Peer support", cost:"Free", phone:"410-435-2600", url:"https://www.namimaryland.org/", notes:"Support groups, family education, Peer-to-Peer courses across all MD counties including PG and Montgomery" },
+        { name:"AA Maryland — Central Office", type:"Peer support", cost:"Free", phone:"410-663-1922", url:"https://www.aa-md.org/", notes:"Thousands of weekly meetings across MD; PG County and Montgomery County both well-covered" },
+        { name:"DBSA Maryland Chapters", type:"Peer support", cost:"Free", phone:"800-826-3632", url:"https://www.dbsalliance.org/", notes:"Depression and Bipolar Support Alliance chapters in Montgomery, Baltimore, and Annapolis areas" }
+      ]
+    },
+    {
+      category:"Maryland Regional Data Sources",
+      color:"#065F46",
+      items:[
+        { name:"MHAMD Statewide Behavioral Health Survey 2023", type:"Data source", cost:"Free", phone:"", url:"https://www.mhamd.org/news/marylands-statewide-behavioral-health-survey/", notes:"Annual survey of MD residents and providers on access, disparities, and priorities. 74% very concerned about disparities." },
+        { name:"Maryland Behavioral Health Administration (BHA)", type:"Data + Programs", cost:"Free", phone:"410-402-8300", url:"https://bha.health.maryland.gov/", notes:"State agency overseeing public MH system; publishes annual capacity reports by county" }
+      ]
+    }
+  ],
+
+  resources_va: [
+    {
+      category:"Crisis Lines",
+      color:"#991B1B",
+      items:[
+        { name:"REACH VA — Virginia Crisis Line", type:"Crisis line", cost:"Free", phone:"1-800-273-8255 (Option 1)", url:"https://www.reachva.com/", notes:"Virginia-specific routing; 50,000+ annual calls; mobile crisis dispatch in most jurisdictions" },
+        { name:"Virginia 988 Suicide and Crisis Lifeline", type:"Crisis line", cost:"Free", phone:"988", url:"https://988lifeline.org/", notes:"24/7; VA-routed; serves all 134 localities including rural Southwest VA" },
+        { name:"Northern Virginia Crisis Center (ACTS)", type:"Crisis center", cost:"Free", phone:"703-573-5679", url:"https://actshelps.org/", notes:"Walk-in and phone; Fairfax-focused; 24/7; accepts uninsured" }
+      ]
+    },
+    {
+      category:"Community Mental Health Centers",
+      color:"#1E40AF",
+      items:[
+        { name:"Fairfax-Falls Church Community Services Board", type:"Clinical", cost:"Sliding scale / Medicaid", phone:"703-383-8500", url:"https://www.fairfaxcounty.gov/community-services-board/", notes:"One of the largest CSBs in VA; outpatient, crisis, peer support, addiction; serves uninsured" },
+        { name:"Arlington County Community Services Board", type:"Clinical", cost:"Sliding scale / Medicaid", phone:"703-228-1560", url:"https://www.arlingtonva.us/Government/Programs/Human-Services/Mental-Health/", notes:"Integrated MH + SUD; telepsychiatry available; multilingual" },
+        { name:"Alexandria Community Services Board", type:"Clinical", cost:"Sliding scale / Medicaid", phone:"703-746-3400", url:"https://www.alexandriava.gov/CommunityServices", notes:"City of Alexandria public MH; crisis, outpatient, peer support; bilingual Spanish" },
+        { name:"Prince William County CSB", type:"Clinical", cost:"Sliding scale / Medicaid", phone:"703-792-7373", url:"https://www.pwcva.gov/department/community-services/mental-health-substance-abuse", notes:"Serves Manassas and Prince William; large Spanish-speaking population; bilingual staff" }
+      ]
+    },
+    {
+      category:"Peer Support & Community Groups",
+      color:"#5B21B6",
+      items:[
+        { name:"NAMI Northern Virginia", type:"Peer support", cost:"Free", phone:"703-941-0900", url:"https://naminorthernvirginia.org/", notes:"Support groups, family programs, crisis advocacy; Arlington, Fairfax, Alexandria, Loudoun coverage" },
+        { name:"AA Virginia Northern District", type:"Peer support", cost:"Free", phone:"703-293-9999", url:"https://www.aa-dc.org/", notes:"Multiple weekly meetings across NoVA; online and in-person; multilingual" },
+        { name:"VMAP — Virginia Mental Health Access Program", type:"Clinical referral", cost:"Free consultation", phone:"866-730-2820", url:"https://www.chkd.org/for-medical-professionals/virginia-mental-health-access-program-vmap/", notes:"For youth (0–25); rapid child psychiatry consultation to PCPs; covers rural VA pediatricians with no local specialist access" }
+      ]
+    },
+    {
+      category:"Virginia Regional Data Sources",
+      color:"#065F46",
+      items:[
+        { name:"Mental Health Virginia — State Rankings 2025", type:"Data source", cost:"Free", phone:"", url:"https://mentalhealthvirginia.org/virginia-drops-from-12th-to-22nd-in-the-2025-state-of-mental-health-in-america-report/", notes:"VA dropped from 12th to 22nd nationally. Tracks workforce shortage, youth access, regional equity annually." },
+        { name:"CHKD / VMAP Youth MH Data", type:"Data source", cost:"Free", phone:"", url:"https://www.chkd.org/for-medical-professionals/virginia-mental-health-access-program-vmap/", notes:"VA ranks 48th for youth MH vs. access; 91% of VA localities are MH shortage areas; 14 child psychiatrists per 100K children." }
+      ]
+    }
+  ],
+
+  regional_datasets: [
+    { id:"R01", scope:"DC",       name:"DC DBH Annual Mental Health Report",                             org:"DC Dept of Behavioral Health",       url:"https://dbh.dc.gov/",                                                                                       key_stat:"Crisis call volume, provider capacity, ward-level disparities; updated annually" },
+    { id:"R02", scope:"DC",       name:"DC Open Data — Mental Health Facilities",                         org:"DC Government",                       url:"https://opendata.dc.gov/",                                                                                  key_stat:"Geocoded MH facility locations across all 8 wards; free API" },
+    { id:"R03", scope:"DC",       name:"DMPED DC Neighborhood Profiles",                                  org:"DC Office of Planning",               url:"https://planning.dc.gov/node/1238671",                                                                     key_stat:"Income, insurance, and health data by ward and ANC; useful for equity mapping" },
+    { id:"R04", scope:"Maryland", name:"Maryland Behavioral Health Administration — County Profiles",     org:"MD BHA",                              url:"https://bha.health.maryland.gov/",                                                                          key_stat:"County-level MH capacity, provider counts, Medicaid utilization rates" },
+    { id:"R05", scope:"Maryland", name:"MHAMD Statewide Behavioral Health Survey 2023",                   org:"Mental Health Association of MD",     url:"https://www.mhamd.org/news/marylands-statewide-behavioral-health-survey/",                                 key_stat:"74% very concerned about access disparities; PG County most underserved" },
+    { id:"R06", scope:"Maryland", name:"Maryland CHRC — Health Workforce Shortage Designation Data",      org:"MD Health Care Commission",           url:"https://mhcc.maryland.gov/",                                                                                key_stat:"Tracks MH shortage designations by county; updated quarterly" },
+    { id:"R07", scope:"Virginia", name:"Mental Health Virginia — State MH Rankings 2025",                 org:"Mental Health Virginia",              url:"https://mentalhealthvirginia.org/",                                                                         key_stat:"VA dropped 22nd nationally (from 12th). Covers workforce, youth, regional equity." },
+    { id:"R08", scope:"Virginia", name:"CHKD / VMAP Youth Mental Health Data",                            org:"CHKD / Virginia MAP",                 url:"https://www.chkd.org/for-medical-professionals/virginia-mental-health-access-program-vmap/",               key_stat:"VA 48th for youth MH access; 91% localities shortage areas; 14 child psych per 100K" },
+    { id:"R09", scope:"Virginia", name:"Virginia DBHDS — Statewide Behavioral Health Plan",               org:"VA Dept of Behavioral Health",        url:"https://www.dbhds.virginia.gov/",                                                                           key_stat:"State MH system capacity, CSB utilization, rural access gaps; annual report" },
+    { id:"R10", scope:"Virginia", name:"DBHDS — Community Services Board Annual Report",                  org:"VA DBHDS",                            url:"https://www.dbhds.virginia.gov/",                                                                           key_stat:"Per-CSB data on crisis, outpatient, and residential MH capacity for all 40 CSBs" },
+    { id:"R11", scope:"DC/MD/VA", name:"NAM DC Public Health Case Challenge 2024",                        org:"National Academy of Medicine",        url:"https://nam.edu/",                                                                                          key_stat:"Evidence base for MH interventions among emerging adults (18–29) in the DMV region" },
+    { id:"R12", scope:"DC/MD/VA", name:"HRSA DMV Shortage Area Map",                                     org:"HRSA",                                url:"https://data.hrsa.gov/tools/shortage-area/hpsa-find",                                                       key_stat:"Interactive map of all MH shortage areas across DC, MD, and VA by county/census tract" }
+  ],
+
+  underserved_spotlight: [
+    {
+      area:"DC Ward 7 and Ward 8",
+      color:"#991B1B",
+      population:"~155,000 residents",
+      pctBlack:">90%",
+      challenge:"Virtually no private MH practices east of the Anacostia River. The entire area east of the river — home to 155,000+ predominantly Black residents — is a clinical desert. The existing infrastructure is faith communities, DPR rec centers, and a handful of DBH-funded community sites.",
+      keyResources:["DBH ACCESS Helpline (888-793-4357)", "Community Connections", "DC DPR rec centers (Anacostia, Fort Stanton, Ferebee Hope)", "Narcotics Anonymous — DC Region", "Black church grief and recovery ministries"],
+      appOpportunity:"No existing app or directory lists the full range of faith-based, DPR, and peer resources east of the Anacostia. The gap between available resources and discoverable resources is the largest in the region."
+    },
+    {
+      area:"Prince George's County, MD",
+      color:"#5B21B6",
+      population:"~970,000 residents",
+      pctBlack:"~64%",
+      challenge:"The most populous majority-Black county in the U.S. is also one of the most underserved for MH in the DMV. Full-county HRSA shortage designation. Strong Medicaid coverage but limited provider base. MHAMD survey found PG County residents most likely to report inability to access care.",
+      keyResources:["PG County Health Dept Behavioral Health (301-909-6389)", "NAMI Maryland", "988 Lifeline — MD routing", "AA and NA groups across the county"],
+      appOpportunity:"PG County has high smartphone ownership but low MH app engagement. Primary discovery barriers are awareness and language (significant Spanish-speaking population in Hyattsville/Langley Park area)."
+    },
+    {
+      area:"Southwest and Shenandoah Valley Virginia",
+      color:"#92400E",
+      population:"~600,000 rural residents",
+      pctBlack:"~12%",
+      challenge:"Rural Southwest VA has zero MH providers in many counties. The nearest psychiatrist may be 90+ miles away. REACH VA and telehealth are the primary access points. Community colleges and churches serve as informal mental health hubs.",
+      keyResources:["REACH VA (1-800-273-8255 Option 1)", "Virginia 988", "Local community colleges — counseling centers", "Church-based support groups", "VMAP telehealth consultations for PCPs"],
+      appOpportunity:"Offline mode and telehealth resource listing are the most critical features for this population. In-person resources are sparse; virtual peer groups and teletherapy directories fill the largest gap."
+    },
+    {
+      area:"Northern Virginia (Fairfax, Arlington, Loudoun)",
+      color:"#065F46",
+      population:"~1.5M residents",
+      pctBlack:"~10%",
+      challenge:"NoVA has more providers per capita than DC or rural VA but still faces 6+ week waitlists due to high-income demand. Significant multilingual needs — Vietnamese, Korean, Spanish, Farsi, Amharic communities all underserved. Federal workforce culture creates stigma barriers among government employees.",
+      keyResources:["Fairfax-Falls Church CSB (703-383-8500)", "NAMI Northern Virginia (703-941-0900)", "ACTS Crisis Center (703-573-5679)", "Arlington CSB", "Alexandria CSB"],
+      appOpportunity:"Multilingual resource finder + federal employee anonymity features are the highest-leverage opportunities. Yoga studio and peer group discovery also strong for this wellness-oriented population."
+    }
+  ]
+};

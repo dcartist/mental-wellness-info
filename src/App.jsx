@@ -25,7 +25,7 @@
 
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
-import { DATA, CAT_COLORS } from "./data.js";
+import { DATA, CAT_COLORS, DMV } from "./data.js";
 
 /* ============================================================
    DESIGN TOKENS
@@ -717,95 +717,411 @@ function DatasetsView({ d }) {
      - role="banner" on header, role="main" on main, role="navigation" on navs
      - All interactive elements get focus-visible from global CSS
 ============================================================ */
+/* ============================================================
+   DMV SECTION COMPONENTS
+   All receive d = DMV and render one sub-tab's content.
+============================================================ */
+
+/* DMVOverview: headline stats + regional stats cards for DC/MD/VA.
+   PSEUDO-CODE:
+     1. Render 6 headline StatCards in a 3-column grid
+     2. FOR each region (DC, Maryland, Virginia):
+          Render a Card with regional stats list + context paragraph
+   508: Stats list uses <ul> with <li>; context uses <p>. */
+function DMVOverview({ d }) {
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:28 }}>
+      <section aria-labelledby="dmvov-h">
+        <h2 id="dmvov-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 12px" }}>DMV Regional Key Figures</h2>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12 }}>
+          {d.headline_stats.map((s,i) => <StatCard key={i} {...s} />)}
+        </div>
+      </section>
+
+      <section aria-labelledby="dmv-regions-h">
+        <h2 id="dmv-regions-h" style={{ fontSize:17, fontWeight:700, color:T.text, margin:"0 0 14px" }}>Regional Breakdown — DC, Maryland, Virginia</h2>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16 }}>
+          {d.regional_stats.map(r => (
+            <Card key={r.region} accent={r.color}>
+              <h3 style={{ fontSize:16, fontWeight:700, color:r.color, margin:"0 0 12px" }}>{r.region}</h3>
+              <ul style={{ listStyle:"none", padding:0, margin:"0 0 12px" }}>
+                {r.stats.map((s,i) => (
+                  <li key={i} style={{ display:"flex", justifyContent:"space-between", padding:"5px 0", borderBottom:"1px solid "+T.border, gap:8 }}>
+                    <span style={{ fontSize:11, color:T.textMut, flex:1 }}>{s.label}</span>
+                    <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:"monospace", whiteSpace:"nowrap" }}>{s.value}</span>
+                  </li>
+                ))}
+              </ul>
+              <p style={{ fontSize:11, color:T.textMut, margin:0, lineHeight:1.5 }}>{r.context}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* DMVUnderserved: deep-dive cards for the 4 most underserved DMV areas.
+   PSEUDO-CODE:
+     FOR each underserved area:
+       Render a Card with population stats, challenge description,
+       key resources list, and app opportunity note.
+   508: Cards use article + aria-label; lists use ul/li. */
+function DMVUnderserved({ d }) {
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+      <section aria-labelledby="dmv-under-h">
+        <h2 id="dmv-under-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 6px" }}>Underserved Area Spotlights</h2>
+        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+          Four areas in the DMV with the highest gap between need and available resources — and the highest app opportunity.
+        </p>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
+          {d.underserved_spotlight.map((a,i) => (
+            <article key={i} aria-label={a.area + ": " + a.population}
+              style={{ background:T.bgCard, border:"1px solid "+T.border, borderRadius:12, padding:20, borderLeft:"4px solid "+a.color }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8, flexWrap:"wrap", gap:6 }}>
+                <h3 style={{ fontSize:15, fontWeight:700, color:a.color, margin:0 }}>{a.area}</h3>
+                <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+                  <Tag color={a.color}>{a.population}</Tag>
+                  <Tag color="#334155">{a.pctBlack} Black</Tag>
+                </div>
+              </div>
+
+              <p style={{ fontSize:12, color:T.textSub, lineHeight:1.6, margin:"0 0 12px" }}>{a.challenge}</p>
+
+              <div style={{ marginBottom:12 }}>
+                <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:T.textMut, margin:"0 0 6px" }}>Key Resources</p>
+                <ul style={{ listStyle:"none", padding:0, margin:0 }}>
+                  {a.keyResources.map((r,j) => (
+                    <li key={j} style={{ fontSize:11, color:T.textSub, padding:"3px 0", paddingLeft:12, position:"relative" }}>
+                      <span aria-hidden="true" style={{ position:"absolute", left:0, color:a.color }}>›</span>
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div style={{ background:T.bgSub, borderRadius:8, padding:"8px 12px" }}>
+                <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:a.color, margin:"0 0 4px" }}>App Opportunity</p>
+                <p style={{ fontSize:11, color:T.textMut, margin:0, lineHeight:1.5 }}>{a.appOpportunity}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ResourceTable: reusable component for rendering a resource category section.
+   PSEUDO-CODE:
+     FOR each category in categories array:
+       Render category heading + accent bar
+       FOR each resource item:
+         Render a row with: name, type, cost badge, phone, notes
+         IF url exists: wrap name in ExtLink
+   508: th scope="col" on all headers; cost uses Tag (text not color only). */
+function ResourceTable({ categories, accentColor }) {
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:10, fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:28 }}>
+      {categories.map(cat => (
+        <section key={cat.category} aria-labelledby={"cat-"+cat.category.replace(/[^a-z0-9]/gi,"-")}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ width:4, height:22, background:cat.color, borderRadius:2, flexShrink:0 }} aria-hidden="true" />
+            <h3 id={"cat-"+cat.category.replace(/[^a-z0-9]/gi,"-")}
+              style={{ fontSize:15, fontWeight:700, color:T.text, margin:0 }}>{cat.category}</h3>
+          </div>
+          <div style={{ overflowX:"auto" }}>
+            <table style={{ width:"100%", borderCollapse:"collapse", background:T.bg }}>
+              <thead>
+                <tr>
+                  <th scope="col" style={thS}>Resource</th>
+                  <th scope="col" style={thS}>Type</th>
+                  <th scope="col" style={thS}>Cost</th>
+                  <th scope="col" style={thS}>Phone / Contact</th>
+                  <th scope="col" style={thS}>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cat.items.map((item, i) => (
+                  <tr key={i}>
+                    <td style={{ ...tds, fontWeight:600 }}>
+                      {item.url ? <ExtLink href={item.url}>{item.name}</ExtLink> : item.name}
+                    </td>
+                    <td style={tds}>{item.type}</td>
+                    <td style={tds}>
+                      <Tag color={item.cost==="Free"?"#065F46":item.cost.includes("sliding")?"#1E40AF":"#92400E"}>
+                        {item.cost}
+                      </Tag>
+                    </td>
+                    <td style={{ ...tds, fontFamily:"monospace", whiteSpace:"nowrap" }}>{item.phone || "—"}</td>
+                    <td style={tds}>{item.notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+/* DMVResourcesDC: Washington DC resources across all 5 categories.
+   PSEUDO-CODE: Pass d.resources_dc to ResourceTable component.
+   508: Each category section has aria-labelledby. */
+function DMVResourcesDC({ d }) {
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+      <div>
+        <Eyebrow text="Washington DC — All 8 Wards" color="#1E40AF" />
+        <h2 style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 4px" }}>DC Mental Health Resources</h2>
+        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+          Crisis lines, community mental health centers, DC DPR free wellness programming, peer support groups, and faith-based resources.
+          Ward 7 and Ward 8 resources are highlighted — the most underserved areas east of the Anacostia.
+        </p>
+      </div>
+      <ResourceTable categories={d.resources_dc} accentColor="#1E40AF" />
+    </div>
+  );
+}
+
+/* DMVResourcesMD: Maryland resources across all categories.
+   PSEUDO-CODE: Pass d.resources_md to ResourceTable component.
+   508: h2 heading with id for landmark navigation. */
+function DMVResourcesMD({ d }) {
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+      <div>
+        <Eyebrow text="Maryland — PG County, Montgomery County, Statewide" color="#991B1B" />
+        <h2 style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Maryland Mental Health Resources</h2>
+        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+          Crisis lines, community mental health centers, peer support groups, and regional data sources.
+          Prince George's County is highlighted as the most underserved large county in the DMV.
+        </p>
+      </div>
+      <ResourceTable categories={d.resources_md} accentColor="#991B1B" />
+    </div>
+  );
+}
+
+/* DMVResourcesVA: Virginia resources across all categories.
+   PSEUDO-CODE: Pass d.resources_va to ResourceTable component.
+   508: h2 heading; ResourceTable handles th scope on all columns. */
+function DMVResourcesVA({ d }) {
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+      <div>
+        <Eyebrow text="Virginia — Northern VA, Statewide, Rural Southwest" color="#065F46" />
+        <h2 style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Virginia Mental Health Resources</h2>
+        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+          Crisis lines including REACH VA, Community Services Boards, peer support, and regional data sources.
+          91% of Virginia localities are designated MH shortage areas — the most acute provider desert in the region.
+        </p>
+      </div>
+      <ResourceTable categories={d.resources_va} accentColor="#065F46" />
+    </div>
+  );
+}
+
+/* DMVDatasets: table of all 12 regional DMV data sources.
+   PSEUDO-CODE:
+     Render a table with scope, org, key stat, and linked name for all R01-R12.
+     Scope uses Tag with color per jurisdiction (DC/MD/VA/regional).
+   508: th scope="col" on every header; ExtLinks announce new-tab. */
+function DMVDatasets({ d }) {
+  function scopeColor(s) {
+    if (s==="DC") return "#1E40AF";
+    if (s==="Maryland") return "#991B1B";
+    if (s==="Virginia") return "#065F46";
+    return "#5B21B6";
+  }
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:10, fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
+  return (
+    <section aria-labelledby="dmv-ds-h">
+      <Eyebrow text="12 regional data sources covering DC, Maryland, and Virginia" color="#5B21B6" />
+      <h2 id="dmv-ds-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 14px" }}>DMV Regional Data Sources</h2>
+      <div style={{ overflowX:"auto" }}>
+        <table style={{ width:"100%", borderCollapse:"collapse", background:T.bg }}>
+          <thead>
+            <tr>
+              <th scope="col" style={thS}>ID</th>
+              <th scope="col" style={thS}>Scope</th>
+              <th scope="col" style={thS}>Dataset / Report</th>
+              <th scope="col" style={thS}>Organization</th>
+              <th scope="col" style={thS}>Key Metric / Finding</th>
+            </tr>
+          </thead>
+          <tbody>
+            {d.regional_datasets.map(r => (
+              <tr key={r.id}>
+                <td style={{ ...tds, fontFamily:"monospace" }}>{r.id}</td>
+                <td style={tds}><Tag color={scopeColor(r.scope)}>{r.scope}</Tag></td>
+                <td style={tds}><ExtLink href={r.url}>{r.name}</ExtLink></td>
+                <td style={tds}>{r.org}</td>
+                <td style={tds}>{r.key_stat}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   APP — ROOT COMPONENT
+   PSEUDO-CODE:
+     1. useState("q1"): tracks which top-level view is visible.
+     2. useState("overview"): tracks which sub-tab is active.
+     3. switchView(v): sets view AND resets subTab to "overview".
+     4. viewConfig: defines all 4 views (q1, q2, dmv, datasets)
+        with accent colors and sub-tab definitions.
+     5. Render: [skip link] [header] [main] [floating nav]
+   508:
+     - Single h1 (text changes per view; always only one h1 on page)
+     - Skip nav link off-screen until focused
+     - role="banner" on header, role="main" on main, role="navigation" on navs
+     - All interactive elements get focus-visible outline from global CSS
+============================================================ */
 export default function App() {
   const [view,   setView]   = useState("q1");
   const [subTab, setSubTab] = useState("overview");
 
+  /* Switch top-level view and reset sub-tab to "overview" */
   function switchView(v) { setView(v); setSubTab("overview"); }
 
+  /* Configuration for all 4 top-level views */
   const viewConfig = [
     { id:"q1",       label:"Query 1: App Demographics",   accent:"#065F46",
-      subTabs:[{id:"overview",label:"Overview + Charts"},{id:"users",label:"Likely / Unlikely Users"},{id:"capabilities",label:"App Capabilities"},{id:"bridge",label:"Bridge Strategies + DMV"},{id:"altres",label:"Alternative Resources"}]},
+      subTabs:[
+        {id:"overview",     label:"Overview + Charts"},
+        {id:"users",        label:"Likely / Unlikely Users"},
+        {id:"capabilities", label:"App Capabilities"},
+        {id:"bridge",       label:"Bridge Strategies + DMV"},
+        {id:"altres",       label:"Alternative Resources"},
+      ]},
     { id:"q2",       label:"Query 2: Therapy Avoidance",  accent:"#5B21B6",
-      subTabs:[{id:"overview",label:"Overview + Gap Funnel"},{id:"demographics",label:"By Age / Sex / Race"},{id:"alternatives",label:"What They Do Instead"},{id:"search",label:"When They Search Online"}]},
+      subTabs:[
+        {id:"overview",     label:"Overview + Gap Funnel"},
+        {id:"demographics", label:"By Age / Sex / Race"},
+        {id:"alternatives", label:"What They Do Instead"},
+        {id:"search",       label:"When They Search Online"},
+      ]},
+    { id:"dmv",      label:"DMV Resources",               accent:"#1E40AF",
+      subTabs:[
+        {id:"overview",    label:"Regional Overview"},
+        {id:"underserved", label:"Underserved Areas"},
+        {id:"dc",          label:"Washington DC"},
+        {id:"maryland",    label:"Maryland"},
+        {id:"virginia",    label:"Virginia"},
+        {id:"datasets",    label:"DMV Data Sources"},
+      ]},
     { id:"datasets", label:"All Datasets",                accent:"#92400E",
       subTabs:[{id:"overview",label:"Sources and Data"}]},
   ];
 
-  const cfg    = viewConfig.find(v=>v.id===view)||viewConfig[0];
+  const cfg    = viewConfig.find(v => v.id === view) || viewConfig[0];
   const accent = cfg.accent;
-  const titles = { q1:"Mental Health App — Who Would Use It?", q2:"Therapy Avoidance and Alternatives", datasets:"All Datasets and Sources" };
+  const titles = {
+    q1:       "Mental Health App — Who Would Use It?",
+    q2:       "Therapy Avoidance and Alternatives",
+    dmv:      "DMV Mental Health Resources — DC, Maryland, Virginia",
+    datasets: "All Datasets and Sources",
+  };
 
   return (
     <div style={{ minHeight:"100vh", background:T.bg, color:T.text, fontFamily:"'Segoe UI',Arial,sans-serif" }}>
       <style>{`*,:after,:before{box-sizing:border-box}body{margin:0;background:#fff}*:focus-visible{outline:3px solid #1D4ED8 !important;outline-offset:2px !important}`}</style>
 
-      {/* Skip navigation — off-screen until focused; snaps into view on keyboard focus.
-          PSEUDO-CODE: onFocus → move element into viewport. onBlur → hide again.
-          508: Allows keyboard users to jump past the header directly to main content. */}
+      {/* Skip navigation link — visually hidden until keyboard focus.
+          PSEUDO-CODE: onFocus → snap into view. onBlur → hide again.
+          508: Allows keyboard users to bypass repeated header navigation. */}
       <a href="#main-content"
         style={{ position:"fixed", left:"-9999px", top:"auto", width:1, height:1, overflow:"hidden", background:"#1D4ED8", color:"#fff", padding:"8px 16px", borderRadius:4, zIndex:9999, textDecoration:"none", fontSize:14, fontWeight:700 }}
-        onFocus={e=>{e.currentTarget.style.cssText+=";left:16px;top:16px;width:auto;height:auto"}}
-        onBlur={e=>{e.currentTarget.style.cssText+=";left:-9999px;width:1px;height:1px"}}>
+        onFocus={e => { e.currentTarget.style.cssText += ";left:16px;top:16px;width:auto;height:auto"; }}
+        onBlur={e  => { e.currentTarget.style.cssText += ";left:-9999px;width:1px;height:1px"; }}>
         Skip to main content
       </a>
 
-      {/* Header — sticky, contains single h1, view switcher, and sub-tab bar.
-          PSEUDO-CODE: Render h1 text from titles lookup. Render 3 view switcher buttons.
-                       Render TabBar for the active view's sub-tabs.
+      {/* Sticky header: site label, single h1, view switcher, sub-tab bar.
+          PSEUDO-CODE: Render h1 text from titles lookup. Render 4 view buttons.
+                       Render TabBar for active view's sub-tabs.
           508: role="banner"; single h1; buttons use aria-pressed. */}
       <header role="banner" style={{ background:"#fff", borderBottom:"2px solid "+T.border, position:"sticky", top:0, zIndex:100, padding:"16px 40px 0" }}>
         <div style={{ maxWidth:1300, margin:"0 auto" }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:16, flexWrap:"wrap", gap:12 }}>
             <div>
-              <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase", color:T.textMut, margin:"0 0 4px" }}>Mental Health Research — 2 Queries · 47 Data Sources</p>
+              <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase", color:T.textMut, margin:"0 0 4px" }}>
+                Mental Health Research — 2 Queries · DMV Resources · 47+ Data Sources
+              </p>
               <h1 style={{ fontSize:22, fontWeight:700, color:T.text, margin:0 }}>{titles[view]}</h1>
             </div>
             <nav role="navigation" aria-label="Main sections">
-              <div style={{ display:"flex", gap:8 }}>
-                {viewConfig.map(v=>{
-                  const on=view===v.id;
-                  return <button key={v.id} aria-pressed={on?"true":"false"} onClick={()=>switchView(v.id)}
-                    style={{ background:on?v.accent+"18":"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?v.accent:T.textMut, borderRadius:8, padding:"7px 14px", cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>{v.label}</button>;
+              <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+                {viewConfig.map(v => {
+                  const on = view === v.id;
+                  return (
+                    <button key={v.id} aria-pressed={on?"true":"false"} onClick={() => switchView(v.id)}
+                      style={{ background:on?v.accent+"18":"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?v.accent:T.textMut, borderRadius:8, padding:"7px 14px", cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
+                      {v.label}
+                    </button>
+                  );
                 })}
               </div>
             </nav>
           </div>
-          <TabBar tabs={cfg.subTabs} active={subTab} onSelect={setSubTab} accent={accent}/>
+          <TabBar tabs={cfg.subTabs} active={subTab} onSelect={setSubTab} accent={accent} />
         </div>
       </header>
 
-      {/* Main — renders the section component matching (view, subTab).
+      {/* Main content area — renders section component matching (view, subTab).
           PSEUDO-CODE: Each line is a boolean check. Only one section renders at a time.
-          508: id="main-content" is the skip-nav anchor target.
-               role="main" is the ARIA landmark for screen reader navigation. */}
+          508: id="main-content" is skip-nav target; role="main" is ARIA landmark. */}
       <main id="main-content" role="main" aria-label={cfg.label}
         style={{ maxWidth:1300, margin:"0 auto", padding:"32px 40px 100px" }}>
-        {view==="q1"&&subTab==="overview"     &&<Q1Overview     d={DATA.q1}/>}
-        {view==="q1"&&subTab==="users"        &&<Q1Users        d={DATA.q1}/>}
-        {view==="q1"&&subTab==="capabilities" &&<Q1Capabilities d={DATA.q1}/>}
-        {view==="q1"&&subTab==="bridge"       &&<Q1Bridge       d={DATA.q1}/>}
-        {view==="q1"&&subTab==="altres"       &&<Q1AltResources d={DATA.q1}/>}
-        {view==="q2"&&subTab==="overview"     &&<Q2Overview     d={DATA.q2}/>}
-        {view==="q2"&&subTab==="demographics" &&<Q2Demographics d={DATA.q2}/>}
-        {view==="q2"&&subTab==="alternatives" &&<Q2Alternatives d={DATA.q2}/>}
-        {view==="q2"&&subTab==="search"       &&<Q2Search       d={DATA.q2}/>}
-        {view==="datasets"                    &&<DatasetsView   d={DATA.datasets}/>}
+
+        {/* Query 1 sub-sections */}
+        {view==="q1" && subTab==="overview"     && <Q1Overview     d={DATA.q1} />}
+        {view==="q1" && subTab==="users"        && <Q1Users        d={DATA.q1} />}
+        {view==="q1" && subTab==="capabilities" && <Q1Capabilities d={DATA.q1} />}
+        {view==="q1" && subTab==="bridge"       && <Q1Bridge       d={DATA.q1} />}
+        {view==="q1" && subTab==="altres"       && <Q1AltResources d={DATA.q1} />}
+
+        {/* Query 2 sub-sections */}
+        {view==="q2" && subTab==="overview"     && <Q2Overview     d={DATA.q2} />}
+        {view==="q2" && subTab==="demographics" && <Q2Demographics d={DATA.q2} />}
+        {view==="q2" && subTab==="alternatives" && <Q2Alternatives d={DATA.q2} />}
+        {view==="q2" && subTab==="search"       && <Q2Search       d={DATA.q2} />}
+
+        {/* DMV sub-sections */}
+        {view==="dmv" && subTab==="overview"    && <DMVOverview    d={DMV} />}
+        {view==="dmv" && subTab==="underserved" && <DMVUnderserved d={DMV} />}
+        {view==="dmv" && subTab==="dc"          && <DMVResourcesDC d={DMV} />}
+        {view==="dmv" && subTab==="maryland"    && <DMVResourcesMD d={DMV} />}
+        {view==="dmv" && subTab==="virginia"    && <DMVResourcesVA d={DMV} />}
+        {view==="dmv" && subTab==="datasets"    && <DMVDatasets    d={DMV} />}
+
+        {/* All datasets section */}
+        {view==="datasets"                      && <DatasetsView   d={DATA.datasets} />}
       </main>
 
-      {/* Floating bottom nav — quick-switch between top-level views.
-          PSEUDO-CODE: Render 3 buttons pinned to the bottom-center of the viewport.
+      {/* Floating bottom nav — quick-switch between all 4 top-level views.
+          PSEUDO-CODE: Render 4 buttons pinned to bottom-center of viewport.
                        Separator spans between buttons are aria-hidden.
           508: role="navigation" + aria-label; buttons use aria-pressed. */}
       <nav role="navigation" aria-label="Quick section navigation"
-        style={{ position:"fixed", bottom:20, left:"50%", transform:"translateX(-50%)", display:"flex", gap:6, alignItems:"center", background:"#fff", border:"2px solid "+T.border, borderRadius:40, padding:"8px 20px", boxShadow:"0 4px 24px rgba(15,23,42,0.12)" }}>
-        {viewConfig.map((v,i)=>{
-          const on=view===v.id;
+        style={{ position:"fixed", bottom:20, left:"50%", transform:"translateX(-50%)", display:"flex", gap:4, alignItems:"center", background:"#fff", border:"2px solid "+T.border, borderRadius:40, padding:"8px 18px", boxShadow:"0 4px 24px rgba(15,23,42,0.12)" }}>
+        {viewConfig.map((v,i) => {
+          const on = view === v.id;
           return (
-            <span key={v.id} style={{ display:"flex", alignItems:"center", gap:6 }}>
-              {i>0&&<span aria-hidden="true" style={{ color:T.border, fontSize:18, lineHeight:1 }}>|</span>}
-              <button aria-pressed={on?"true":"false"} onClick={()=>switchView(v.id)}
-                style={{ background:on?v.accent:"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?"#fff":T.textMut, borderRadius:20, padding:"5px 14px", cursor:"pointer", fontSize:11, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
+            <span key={v.id} style={{ display:"flex", alignItems:"center", gap:4 }}>
+              {i > 0 && <span aria-hidden="true" style={{ color:T.border, fontSize:16, lineHeight:1 }}>|</span>}
+              <button aria-pressed={on?"true":"false"} onClick={() => switchView(v.id)}
+                style={{ background:on?v.accent:"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?"#fff":T.textMut, borderRadius:20, padding:"5px 12px", cursor:"pointer", fontSize:11, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
                 {v.label}
               </button>
             </span>
