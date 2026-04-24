@@ -530,3 +530,300 @@ export var DMV = {
     }
   ]
 };
+
+/* ============================================================
+   DC WARD-BY-WARD DATA
+   Sources: DC BRFSS/DOH, DC KIDS COUNT, DC DCFPI, DC DBH,
+            DC DPR, OurHealthyDC.org, PMC Ward 7/8 barriers study
+============================================================ */
+export var WARDS = [
+  {
+    number: 1,
+    name: "Ward 1",
+    color: "#1E40AF",
+    severity: "moderate",
+    neighborhoods: "Columbia Heights, Mount Pleasant, Adams Morgan, Park View, Pleasant Plains, Petworth (part)",
+    population: "~82,000",
+    pctBlack: "~28%",
+    pctHispanic: "~26%",
+    pctWhite: "~38%",
+    medianIncome: "$74,200",
+    povertyRate: "13%",
+    uninsuredRate: "9%",
+    depressionRate: 16.2,
+    poorMHDays: "4.8 days/month",
+    shortage: "Partial",
+    providerDensity: "Moderate — concentrated in Adams Morgan; sparse in Park View/Pleasant Plains",
+    context: "The most ethnically diverse ward in DC. Large Central American immigrant community in Columbia Heights faces language barriers (90%+ of MH apps English-only). Park View and Pleasant Plains have lower access than the rest of the ward. Strong arts and community culture — creative therapy pathways are high-leverage here.",
+    mh_resources: [
+      { name: "Whitman-Walker Health", type: "FQHC + MH", cost: "Sliding scale", phone: "202-745-7000", url: "https://www.whitman-walker.org/", notes: "LGBTQ+ affirming; bilingual Spanish; MH integrated with primary care; serves Ward 1 heavily" },
+      { name: "Community Connections", type: "Clinical + Peer", cost: "Sliding scale", phone: "202-745-5947", url: "https://communityconnectionsdc.org/", notes: "Multiple Ward 1 sites; trauma-informed; DBH-funded" },
+      { name: "Unity Health Care — Petworth", type: "FQHC", cost: "Sliding scale", phone: "202-745-4300", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health in primary care; serves Ward 1 northern section" }
+    ],
+    dpr_centers: [
+      { name: "Lamond Riggs Community Center", phone: "202-576-8655", notes: "Free fitness and youth programs; ward boundary area" },
+      { name: "Columbia Heights Community Center", phone: "202-671-3770", notes: "Free wellness classes; large Hispanic community programming; bilingual staff" },
+      { name: "Emery Heights Community Center", phone: "202-576-8660", notes: "Free senior wellness and youth activities; Park View area" }
+    ],
+    peer_faith: [
+      { name: "NAMI DC — Columbia Heights Support Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Spanish-language support groups run from this area; family education courses" },
+      { name: "La Clínica del Pueblo", type: "Latino MH services", phone: "202-462-4788", url: "https://www.lcdp.org/", notes: "Culturally affirming MH for Latino community; Spanish-speaking therapists; immigrant-specific services" },
+      { name: "Mount Pleasant Baptist Church", type: "Faith-based support", phone: "202-462-7535", url: "", notes: "Community counseling referrals; addiction recovery ministry; grief support" }
+    ],
+    app_opportunity: "Multilingual resource finder (Spanish first) + culturally-matched Latino provider directory is the highest-leverage opportunity. La Clínica del Pueblo is the most important unlisted resource in this ward.",
+    chart_data: { depressionRank: 3, povertyRank: 4, accessRank: 4 }
+  },
+  {
+    number: 2,
+    name: "Ward 2",
+    color: "#065F46",
+    severity: "low",
+    neighborhoods: "Dupont Circle, Logan Circle, Georgetown, Shaw, U Street Corridor, Downtown, Foggy Bottom, West End",
+    population: "~83,000",
+    pctBlack: "~17%",
+    pctHispanic: "~7%",
+    pctWhite: "~64%",
+    medianIncome: "$112,000",
+    povertyRate: "11%",
+    uninsuredRate: "6%",
+    depressionRate: 16.7,
+    poorMHDays: "4.2 days/month",
+    shortage: "No shortage",
+    providerDensity: "High — highest private practice density in DC; concentrated in Dupont Circle and Logan Circle",
+    context: "DC's most provider-rich ward. Private practices are dense in Dupont and Logan Circle. However, Shaw and the U Street Corridor have concentrations of unhoused individuals and lower-income Black residents who are effectively invisible to the private practice ecosystem. The ward has the second-lowest depression rate citywide but significant internal inequity between the NW quadrant and the Shaw/U Street areas.",
+    mh_resources: [
+      { name: "GW University Hospital — Behavioral Health", type: "Clinical", cost: "Insurance / sliding scale", phone: "202-994-2000", url: "https://www.gwhospital.com/", notes: "Academic medical center with full psychiatric services; Foggy Bottom area" },
+      { name: "Howard University Hospital — Psychiatry", type: "Clinical", cost: "Medicaid / sliding scale", phone: "202-865-6100", url: "https://huhealthcare.com/", notes: "HBCU hospital serving Shaw area; culturally affirming for Black residents; Medicaid-heavy" },
+      { name: "Whitman-Walker Health — 14th Street", type: "FQHC + MH", cost: "Sliding scale", phone: "202-745-7000", url: "https://www.whitman-walker.org/", notes: "Primary LGBTQ+ affirming MH center in DC; Logan Circle location; Spanish and multilingual" }
+    ],
+    dpr_centers: [
+      { name: "East Dupont Circle Park", phone: "202-673-7647", notes: "Free outdoor fitness; DPR programming nearby; peer group meeting spot" },
+      { name: "Francis Recreation Center", phone: "202-673-7647", notes: "Free fitness classes; Georgetown/Foggy Bottom adjacent; DPR-run" },
+      { name: "Shaw Community Center", phone: "202-673-7647", notes: "Free youth and senior programming; serves the lower-income Shaw subpopulation" }
+    ],
+    peer_faith: [
+      { name: "DC Center for LGBT Community — Mental Health Programs", type: "Peer + Referral", phone: "202-682-2245", url: "https://thedccenter.org/", notes: "Support groups, peer counseling, referral to affirming therapists; Logan Circle area" },
+      { name: "AA — Dupont Circle Intergroup", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "High meeting density in this ward; multiple daily meetings in Dupont and Logan" },
+      { name: "Metropolitan Community Church DC", type: "Faith + affirming community", phone: "202-638-7373", url: "https://mccdc.com/", notes: "LGBTQ+ affirming faith community; grief and addiction support ministries" }
+    ],
+    app_opportunity: "This ward has the most providers but poorest discovery for the unhoused and lower-income Shaw population. A zero-login free resource mode would be highest value here for the underserved sub-population.",
+    chart_data: { depressionRank: 5, povertyRank: 3, accessRank: 8 }
+  },
+  {
+    number: 3,
+    name: "Ward 3",
+    color: "#065F46",
+    severity: "low",
+    neighborhoods: "Tenleytown, Cleveland Park, American University Park, Wesley Heights, Spring Valley, Friendship Heights, Chevy Chase DC, Palisades",
+    population: "~76,000",
+    pctBlack: "~5%",
+    pctHispanic: "~6%",
+    pctWhite: "~80%",
+    medianIncome: "$168,800",
+    povertyRate: "5%",
+    uninsuredRate: "4%",
+    depressionRate: 15.9,
+    poorMHDays: "3.9 days/month",
+    shortage: "No shortage",
+    providerDensity: "Very high — most affluent ward; highest private pay therapy density in DC",
+    context: "The most affluent ward in DC and the one with the lowest depression rate. Dominated by upper-income white residents, AU and GWU student populations, and embassy staff. Mental health services are abundant and largely private-pay. Federal employees and diplomats may face unique barriers around confidentiality and clearance concerns. The ward is an outlier in the DC context — primarily relevant for comparison data.",
+    mh_resources: [
+      { name: "Sibley Memorial Hospital — Behavioral Health", type: "Clinical", cost: "Insurance / private pay", phone: "202-537-4000", url: "https://www.hopkinsmedicine.org/sibley-memorial-hospital", notes: "High-end inpatient and outpatient; Palisades area; serves the affluent northwest quadrant" },
+      { name: "American University Counseling Center", type: "Student counseling", cost: "Free for AU students", phone: "202-885-3500", url: "https://www.american.edu/ocl/counseling/", notes: "Free for AU students; large waitlist; adjacent to Tenleytown community" },
+      { name: "Abundant private practices (Tenleytown/Cleveland Park)", type: "Private clinical", cost: "Private pay / insurance", phone: "Varies", url: "https://www.psychologytoday.com/", notes: "Highest private practice density in DC; affluent population; predominantly private-pay" }
+    ],
+    dpr_centers: [
+      { name: "Chevy Chase Community Center", phone: "202-282-2204", notes: "Free fitness classes; senior programming; DPR-operated" },
+      { name: "Tenley-Friendship Library (adjacent programs)", phone: "202-727-1488", notes: "Free community programming; wellness events; serves Tenleytown population" },
+      { name: "Guy Mason Recreation Center", phone: "202-282-2180", notes: "Free fitness and wellness classes; serving Georgetown/Glover Park boundary" }
+    ],
+    peer_faith: [
+      { name: "Iona Senior Services", type: "Senior MH + peer support", phone: "202-895-9448", url: "https://www.iona.org/", notes: "Specialized senior mental health for the large 65+ population in this ward; sliding scale" },
+      { name: "AA — Northwest DC", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "Multiple meetings in Tenleytown/Friendship Heights area" },
+      { name: "Washington National Cathedral — Counseling", type: "Faith-based", phone: "202-537-6200", url: "https://cathedral.org/", notes: "Pastoral counseling; grief support; community MH ministry" }
+    ],
+    app_opportunity: "App opportunity here is primarily for discovery of peer support and alternative wellness (yoga, meditation) by the large wellness-oriented population. Federal employee confidentiality features would serve the substantial government workforce here.",
+    chart_data: { depressionRank: 1, povertyRank: 1, accessRank: 7 }
+  },
+  {
+    number: 4,
+    name: "Ward 4",
+    color: "#1E40AF",
+    severity: "moderate",
+    neighborhoods: "Brightwood, Brightwood Park, Crestwood, Manor Park, Shepherd Park, Colonial Village, North Michigan Park, Petworth (part), Fort Totten",
+    population: "~77,000",
+    pctBlack: "~67%",
+    pctHispanic: "~13%",
+    pctWhite: "~14%",
+    medianIncome: "$72,100",
+    povertyRate: "11%",
+    uninsuredRate: "8%",
+    depressionRate: 16.9,
+    poorMHDays: "4.6 days/month",
+    shortage: "Partial",
+    providerDensity: "Below average — limited private practices; primarily served by DBH-funded community sites",
+    context: "A predominantly Black, middle-income ward with good community infrastructure but limited private MH options. Brightwood and Petworth are transit-accessible but have few private practices. The ward sits between the well-served upper NW (W3) and the underserved eastern wards — it has the 4th lowest depression rate but significantly fewer providers than its position would suggest.",
+    mh_resources: [
+      { name: "Unity Health Care — Brightwood", type: "FQHC", cost: "Sliding scale", phone: "202-671-6990", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health; serves Brightwood and Petworth communities" },
+      { name: "DC DBH — ACCESS Helpline (referral to Ward 4 sites)", type: "Referral", cost: "Free", phone: "1-888-793-4357", url: "https://dbh.dc.gov/", notes: "DBH can direct to Ward 4 specific community MH sites; multilingual intake available" }
+    ],
+    dpr_centers: [
+      { name: "Brightwood Recreation Center", phone: "202-576-8656", notes: "Free fitness classes; community wellness programming; large Ward 4 hub" },
+      { name: "Takoma Recreation Center", phone: "202-576-8660", notes: "Free youth and senior programming; Brightwood Park area" },
+      { name: "North Michigan Park Community Center", phone: "202-576-8655", notes: "Free programming; Fort Totten area; underutilized resource" }
+    ],
+    peer_faith: [
+      { name: "NAMI DC — Northwest Support Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Support groups serving Ward 4 residents; family education programs" },
+      { name: "Brightwood Baptist Church area faith network", type: "Faith-based", phone: "Varies", url: "", notes: "Multiple HBCU-affiliated and historic Black churches in Brightwood and Shepherd Park run informal counseling and grief ministries" },
+      { name: "AA — Ward 4 meetings", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "Daily meetings in Brightwood and Petworth areas" }
+    ],
+    app_opportunity: "Provider gap vs. need gap is most visible in Ward 4 — above-average need but below-average supply. App opportunity for DPR wellness discovery and faith-based resource listing. Middle-income Black residents here are underrepresented in all existing directories.",
+    chart_data: { depressionRank: 4, povertyRank: 3, accessRank: 4 }
+  },
+  {
+    number: 5,
+    name: "Ward 5",
+    color: "#92400E",
+    severity: "moderate-high",
+    neighborhoods: "Brookland, Michigan Park, Woodridge, Brentwood, Edgewood, Fort Lincoln, Ivy City, Langdon, Pleasant Hill, Lamond Riggs, Trinidad",
+    population: "~85,000",
+    pctBlack: "~55%",
+    pctHispanic: "~12%",
+    pctWhite: "~26%",
+    medianIncome: "$62,500",
+    povertyRate: "15%",
+    uninsuredRate: "10%",
+    depressionRate: 18.9,
+    poorMHDays: "5.8 days/month",
+    shortage: "Partial — HRSA shortage in Ivy City/Trinidad sub-areas",
+    providerDensity: "Low — limited providers; rapid gentrification creating access instability",
+    context: "A rapidly gentrifying ward with significant economic tension. Long-time Black and Latino residents in Trinidad, Ivy City, and Brentwood face displacement stress and have high MH needs but low provider access. Brookland has better access due to the university presence (Catholic University, Gallaudet). The ward's 18.9% depression rate is the 6th highest — and rising with displacement pressure.",
+    mh_resources: [
+      { name: "Gallaudet University Counseling Center (near Ward 5)", type: "Clinical + specialized", cost: "Limited community access", phone: "202-651-5000", url: "https://gallaudet.edu/", notes: "Specialized deaf/HoH MH; accessible to the Deaf community in the broader area" },
+      { name: "So Others Might Eat (SOME) — Ward 5 site", type: "Integrated care", cost: "Free", phone: "202-797-8806", url: "https://some.org/", notes: "MH integrated with food, housing, addiction services; serves Brentwood/Ivy City unhoused population" },
+      { name: "Unity Health Care — Brookland", type: "FQHC", cost: "Sliding scale", phone: "202-745-4300", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health; serves Brookland and Woodridge" }
+    ],
+    dpr_centers: [
+      { name: "Arboretum Community Center", phone: "202-576-8655", notes: "Free fitness; youth programs; Edgewood area" },
+      { name: "Turkey Thicket Recreation Center", phone: "202-576-8664", notes: "Free wellness programming; Brookland/Michigan Park; underutilized" },
+      { name: "Trinidad Recreation Center", phone: "202-576-8660", notes: "Critical free resource in one of the most underserved sub-areas; free youth programs" }
+    ],
+    peer_faith: [
+      { name: "NAMI DC — Northeast Chapter", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Support groups serving Ward 5 and northeast DC" },
+      { name: "Brookland-area Black churches", type: "Faith-based", phone: "Varies", url: "", notes: "Multiple historic Black churches in Brookland and Brentwood run grief ministries and addiction recovery programs; not listed in any directory" },
+      { name: "NA — Ward 5 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", notes: "Daily NA meetings in Brentwood and Brookland areas; free; open access" }
+    ],
+    app_opportunity: "Displacement stress and gentrification anxiety are specific MH drivers not served by existing app frameworks. An app that lists tenant rights resources alongside MH resources could serve this ward's unique needs. Trinidad and Ivy City are the highest-priority sub-areas.",
+    chart_data: { depressionRank: 6, povertyRank: 5, accessRank: 3 }
+  },
+  {
+    number: 6,
+    name: "Ward 6",
+    color: "#1E40AF",
+    severity: "moderate",
+    neighborhoods: "Capitol Hill, Eastern Market, Barracks Row, Navy Yard, Southwest Waterfront, Near Southeast, Kingman Park",
+    population: "~84,000",
+    pctBlack: "~33%",
+    pctHispanic: "~8%",
+    pctWhite: "~52%",
+    medianIncome: "$88,900",
+    povertyRate: "12%",
+    uninsuredRate: "7%",
+    depressionRate: 18.2,
+    poorMHDays: "5.1 days/month",
+    shortage: "Partial — Near Southeast / Buzzard Point sub-areas",
+    providerDensity: "Mixed — high in Capitol Hill/Eastern Market; very low in Near Southeast and Navy Yard",
+    context: "Ward 6 is internally bifurcated — the Capitol Hill and Eastern Market sections are relatively well-served (higher income, more private practices), while Near Southeast, Buzzard Point, and the older public housing communities in Southwest have very high need and very low access. The ward's rapid development (Navy Yard waterfront) is creating the same displacement stress dynamic as Ward 5, particularly for long-term Black residents.",
+    mh_resources: [
+      { name: "DBH — Capitol Hill Community Mental Health Site", type: "Clinical", cost: "Medicaid / sliding scale", phone: "202-673-7440", url: "https://dbh.dc.gov/", notes: "DBH-funded community site serving the eastern Capitol Hill and Near Southeast areas" },
+      { name: "Unity Health Care — Southeast", type: "FQHC", cost: "Sliding scale", phone: "202-745-4300", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health; serves Near SE and Southwest populations" }
+    ],
+    dpr_centers: [
+      { name: "Eastern Market Recreation Center", phone: "202-673-7647", notes: "Free fitness and wellness classes; Capitol Hill area; well-attended" },
+      { name: "Randall Recreation Center (SW)", phone: "202-645-7940", notes: "Free youth and senior programs; Southwest community; underutilized" },
+      { name: "Garfield Park", phone: "202-673-7647", notes: "DPR outdoor programming; Capitol Hill area; yoga and fitness events" }
+    ],
+    peer_faith: [
+      { name: "Capitol Hill Group Ministry — outreach", type: "Faith-based integrated", phone: "202-543-9122", url: "https://www.caphillgroupministry.org/", notes: "Faith coalition providing food, MH referrals, and community support to lower-income Ward 6 residents" },
+      { name: "NAMI DC — Southeast Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Support groups for Ward 6 and adjacent areas" },
+      { name: "AA — Capitol Hill / Southeast meetings", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "Multiple meetings near Eastern Market and Navy Yard; daily schedule" }
+    ],
+    app_opportunity: "Near Southeast and Buzzard Point are the highest-need sub-areas with near-zero app presence. The combination of new Navy Yard residents (wellness-oriented, would use an app) and existing lower-income residents (who need free resources) creates an opportunity for a two-tier app experience in one ward.",
+    chart_data: { depressionRank: 5, povertyRank: 4, accessRank: 5 }
+  },
+  {
+    number: 7,
+    name: "Ward 7",
+    color: "#991B1B",
+    severity: "high",
+    neighborhoods: "Anacostia (part), Deanwood, Capitol View, Marshall Heights, Benning Heights, Dupont Park, Fort Davis Park, Hillcrest, Penn Branch, Randle Highlands",
+    population: "~80,000",
+    pctBlack: "~93%",
+    pctHispanic: "~3%",
+    pctWhite: "~2%",
+    medianIncome: "$43,600",
+    povertyRate: "26%",
+    uninsuredRate: "14%",
+    depressionRate: 22.5,
+    poorMHDays: "7.8 days/month",
+    shortage: "Full HRSA designation — all of Ward 7",
+    providerDensity: "Critical shortage — fewer than 3 private MH practices in the entire ward",
+    context: "Ward 7 is east of the Anacostia River — a geographic, economic, and healthcare boundary that is one of the starkest divides in any major American city. The ward has a 22.5% depression diagnosis rate (vs 15.9% in Ward 3) and 26% poverty rate, yet has fewer than 3 private mental health practices. The primary MH infrastructure is DBH-funded community sites, historically Black churches, and DC DPR rec centers. Social determinants — income ($43,600 median), housing instability, gun violence proximity, and historical disinvestment — are primary drivers of the MH burden.",
+    mh_resources: [
+      { name: "DBH — Eastern Region Community Mental Health Center", type: "Clinical", cost: "Medicaid / free", phone: "202-673-7440", url: "https://dbh.dc.gov/", notes: "Primary public MH infrastructure for Ward 7; serves Deanwood, Capitol View, Marshall Heights; accepts uninsured" },
+      { name: "United Medical Center (UMC) — Behavioral Health", type: "Clinical", cost: "Medicaid / sliding scale", phone: "202-574-6000", url: "https://www.united-medicalcenter.com/", notes: "The only hospital east of the Anacostia River; limited inpatient psychiatric beds; behavioral health clinic" },
+      { name: "Community Connections — Ward 7 sites", type: "Clinical + Peer", cost: "Sliding scale", phone: "202-745-5947", url: "https://communityconnectionsdc.org/", notes: "Trauma-informed; DBH-funded; serves the most acute MH needs in Ward 7" }
+    ],
+    dpr_centers: [
+      { name: "Ferebee Hope Recreation Center", phone: "202-576-8655", notes: "FREE — Ward 7's primary DPR hub; youth programming, mentorship, free wellness classes; walk-in welcome; critically underused because no directory exists for it" },
+      { name: "Deanwood Recreation Center", phone: "202-576-8558", notes: "FREE — Free fitness classes, senior activities, youth programs; Deanwood area; open daily" },
+      { name: "Capitol View Recreation Center", phone: "202-576-8656", notes: "FREE — Free programming; Capitol View / Marshall Heights; free to all Ward 7 residents" }
+    ],
+    peer_faith: [
+      { name: "Ward 7 Black church network (informal)", type: "Faith-based peer support", phone: "Via DBH outreach", url: "https://dbh.dc.gov/", notes: "CRITICAL RESOURCE: Dozens of historically Black churches in Deanwood, Benning Heights, and Capitol View run grief ministries, addiction recovery, and informal counseling. None are listed in any existing directory. This is the largest untapped MH resource in the ward." },
+      { name: "Narcotics Anonymous — Ward 7 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", notes: "Free daily NA meetings in Deanwood and Marshall Heights; open access; no sign-up" },
+      { name: "Ward 7 Democrats / ANC outreach", type: "Community navigation", phone: "Via ANC 7B/7C", url: "https://anc.dc.gov/", notes: "ANCs coordinate community resource sharing; can connect residents to unlisted MH referral networks" }
+    ],
+    app_opportunity: "Ward 7 has the single highest untapped app opportunity in the entire DMV. The gap between existing resources (DPR centers, Black churches, NA meetings) and discoverable resources (virtually zero — none listed in any existing directory) is the widest in the region. An app that maps faith-based, DPR, and peer resources in Ward 7 would serve approximately 80,000 residents who currently have no unified resource discovery tool.",
+    chart_data: { depressionRank: 7, povertyRank: 7, accessRank: 2 }
+  },
+  {
+    number: 8,
+    name: "Ward 8",
+    color: "#991B1B",
+    severity: "critical",
+    neighborhoods: "Anacostia, Barry Farm, Bellevue, Congress Heights, Douglass, Fairlawn, Garfield Heights, Knox Hill, Washington Highlands, Shipley Terrace",
+    population: "~77,000",
+    pctBlack: ">93%",
+    pctHispanic: "~3%",
+    pctWhite: "~2%",
+    medianIncome: "$35,800",
+    povertyRate: "30%",
+    uninsuredRate: "18%",
+    depressionRate: 25.9,
+    poorMHDays: "9.2 days/month",
+    shortage: "Full HRSA designation — all of Ward 8; most severe in DC",
+    providerDensity: "Critical shortage — 0–1 private MH practices in the entire ward; highest unmet need in DC",
+    context: "Ward 8 is the most underserved community in Washington DC by every mental health metric. With a 25.9% depression diagnosis rate (63% higher than Ward 3), 30% poverty rate, and 18% uninsured rate — yet virtually no private MH providers — it represents the starkest example of the geographic mental health divide in the region. Barry Farm and Congress Heights historically had the highest rates of gun violence in DC, contributing to acute trauma exposure for residents. The Black poverty rate in DC hit a decade high of 30.5% in 2024 — Ward 8 is the primary driver of this statistic. The ward's mental health ecosystem runs almost entirely on DBH-funded community sites, DC DPR rec centers, and historically Black church ministries.",
+    mh_resources: [
+      { name: "DBH — Comprehensive Psychiatric Emergency Program (CPEP) — St. Elizabeths", type: "Crisis + Clinical", cost: "Medicaid / free", phone: "202-673-9319", url: "https://dbh.dc.gov/service/st-elizabeths-hospital", notes: "Located at historic St. Elizabeths campus in Congress Heights; CPEP is Ward 8's only 24/7 crisis stabilization facility; psychiatric inpatient and outpatient" },
+      { name: "United Medical Center — Emergency + Behavioral Health", type: "Hospital + Crisis", cost: "Medicaid / sliding scale", phone: "202-574-6000", url: "https://www.united-medicalcenter.com/", notes: "Only hospital east of the river; emergency psychiatric holds; limited capacity; Ward 8's primary acute care site" },
+      { name: "Community Connections — Ward 8 sites", type: "Clinical + Peer", cost: "Sliding scale", phone: "202-745-5947", url: "https://communityconnectionsdc.org/", notes: "Primary outpatient MH for Ward 8; trauma-informed; serving the highest-acuity population in DC" },
+      { name: "So Others Might Eat (SOME) — MH + Integrated Care", type: "Integrated care", cost: "Free", phone: "202-797-8806", url: "https://some.org/", notes: "MH integrated with housing, food, and addiction services; serving the unhoused and most vulnerable Ward 8 residents" }
+    ],
+    dpr_centers: [
+      { name: "Anacostia Community Recreation Center", phone: "202-645-0510", notes: "FREE — Ward 8's largest DPR hub; free fitness, yoga, youth programs, senior activities; walk-in welcome; directly across from Anacostia Metro; CRITICAL UNLISTED RESOURCE" },
+      { name: "Fort Stanton Recreation Center", phone: "202-645-0573", notes: "FREE — One of the most important free wellness resources in Congress Heights; free classes including fitness and creative arts; massively underutilized due to zero directory listing" },
+      { name: "Sherwood Recreation Center", phone: "202-645-0550", notes: "FREE — Barry Farm adjacent; free programming; one of the only safe indoor spaces for youth in this sub-area" },
+      { name: "Congress Heights Community Training & Wellness Center", phone: "202-645-0559", notes: "FREE — Congress Heights; free wellness programming; community-organized health events; key faith-community partnership site" }
+    ],
+    peer_faith: [
+      { name: "Ward 8 Black church grief and recovery network (informal)", type: "Faith-based — CRITICAL", phone: "Via DBH", url: "https://dbh.dc.gov/", notes: "THE most robust MH resource in Ward 8. Dozens of historically Black congregations in Anacostia, Congress Heights, and Washington Highlands run grief ministries, addiction recovery, food pantries, and community counseling. Examples: Covenant Baptist, Randle Highlands Baptist, St. Teresa of Avila. NONE are listed in any existing directory — the single biggest directory gap in DC." },
+      { name: "Narcotics Anonymous — Ward 8 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", notes: "Free daily NA meetings in Anacostia and Congress Heights; open access; no requirement to be sober to attend first meeting" },
+      { name: "Congress Heights Arts & Culture Center", type: "Creative therapy + community", phone: "202-610-9850", url: "https://www.congressheightsarts.org/", notes: "Free arts programming; therapeutic community activities; adjacent to Fort Stanton rec center; evidence-based creative therapy pathway" },
+      { name: "Ward 8 Business Council / Community organizations", type: "Community navigation", phone: "202-645-0559", url: "", notes: "Local Ward 8 civic organizations often maintain informal resource networks; ANC 8C/8D can connect residents to unlisted MH referral pathways" }
+    ],
+    app_opportunity: "Ward 8 is the #1 priority target for an MH resource app in the entire DC region. The combination of highest need (25.9% depression, 30% poverty, 18% uninsured), critical provider shortage, and a large body of completely undiscoverable resources (4 DPR rec centers, dozens of Black church ministries, daily NA meetings, SOME, community arts centers) creates the most acute directory gap anywhere in the DMV. An app that lists nothing but Ward 8's existing unlisted resources would represent a significant public health intervention.",
+    chart_data: { depressionRank: 8, povertyRank: 8, accessRank: 1 }
+  }
+];

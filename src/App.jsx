@@ -25,7 +25,7 @@
 
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
-import { DATA, CAT_COLORS, DMV } from "./data.js";
+import { DATA, CAT_COLORS, DMV, WARDS } from "./data.js";
 
 /* ============================================================
    DESIGN TOKENS
@@ -987,6 +987,319 @@ function DMVDatasets({ d }) {
      - role="banner" on header, role="main" on main, role="navigation" on navs
      - All interactive elements get focus-visible outline from global CSS
 ============================================================ */
+/* ============================================================
+   WARD SECTION COMPONENTS
+   All receive wards = WARDS array and render DC ward-level data.
+============================================================ */
+
+/* severityColor: maps ward severity level to a color token.
+   PSEUDO-CODE: IF critical → red. IF high → orange-red. IF moderate-high → amber.
+                IF moderate → blue. IF low → green.
+   Used for left border accents and label tags — always paired with text label. */
+function severityColor(s) {
+  if (s === "critical")       return "#991B1B";
+  if (s === "high")           return "#B91C1C";
+  if (s === "moderate-high")  return "#92400E";
+  if (s === "moderate")       return "#1E40AF";
+  return "#065F46";
+}
+
+/* severityLabel: human-readable label for screen readers and tags.
+   PSEUDO-CODE: Map severity string to display label. */
+function severityLabel(s) {
+  if (s === "critical")       return "Critical need";
+  if (s === "high")           return "High need";
+  if (s === "moderate-high")  return "Moderate–High";
+  if (s === "moderate")       return "Moderate";
+  return "Lower need";
+}
+
+/* ─── depression bar chart data sorted worst → best ─── */
+var depressionChartData = WARDS
+  .map(w => ({ ward: w.name, rate: w.depressionRate, fill: severityColor(w.severity) }))
+  .sort((a, b) => b.rate - a.rate);
+
+/* ─── poverty bar chart data sorted worst → best ─── */
+var povertyChartData = WARDS
+  .map(w => ({ ward: w.name, pov: parseFloat(w.povertyRate), fill: severityColor(w.severity) }))
+  .sort((a, b) => b.pov - a.pov);
+
+/* ─── uninsured bar chart data ─── */
+var uninsuredChartData = WARDS
+  .map(w => ({ ward: w.name, rate: parseFloat(w.uninsuredRate), fill: severityColor(w.severity) }))
+  .sort((a, b) => b.rate - a.rate);
+
+/*
+ * WardOverview — comparative bar charts across all 8 wards.
+ * PSEUDO-CODE:
+ *   1. Build chart data arrays (depression, poverty, uninsured) sorted descending.
+ *   2. Render three side-by-side bar charts.
+ *   3. Render summary comparison table for all 8 wards.
+ * 508: Each chart has role="img" + aria-label listing all values.
+ *      Table has th scope="col" on all headers.
+ */
+function WardOverview({ wards }) {
+  const depDesc  = depressionChartData.map(r => `${r.ward}: ${r.rate}%`).join(", ");
+  const povDesc  = povertyChartData.map(r => `${r.ward}: ${r.pov}%`).join(", ");
+  const insDesc  = uninsuredChartData.map(r => `${r.ward}: ${r.rate}%`).join(", ");
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:11, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"middle" };
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
+
+      <section aria-labelledby="ward-ov-h">
+        <h2 id="ward-ov-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 6px" }}>
+          All 8 Wards — Comparative Mental Health Data
+        </h2>
+        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+          Ward 8 has a 63% higher depression rate than Ward 3, yet the fewest providers per capita and the highest poverty rate.
+          The Anacostia River is a literal dividing line between the city's best-served and worst-served mental health communities.
+          Sources: DC BRFSS / DC DOH, DC KIDS COUNT, DC Fiscal Policy Institute, OurHealthyDC.org.
+        </p>
+
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:18 }}>
+          <div>
+            <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#991B1B", margin:"0 0 8px" }}>Depression Diagnosis Rate by Ward</p>
+            <div role="img" aria-label={`Bar chart: depression rate by ward, sorted high to low. ${depDesc}`}>
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={depressionChartData} layout="vertical" barSize={18} margin={{left:10,right:30}}>
+                  <XAxis type="number" tick={{fill:T.textMut,fontSize:10}} tickFormatter={v=>`${v}%`} domain={[0,30]}/>
+                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:12}} width={58}/>
+                  <Tooltip content={<ChartTip/>}/>
+                  <Bar dataKey="rate" name="Depression rate" radius={[0,4,4,0]}>{depressionChartData.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div>
+            <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#92400E", margin:"0 0 8px" }}>Poverty Rate by Ward</p>
+            <div role="img" aria-label={`Bar chart: poverty rate by ward. ${povDesc}`}>
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={povertyChartData} layout="vertical" barSize={18} margin={{left:10,right:30}}>
+                  <XAxis type="number" tick={{fill:T.textMut,fontSize:10}} tickFormatter={v=>`${v}%`} domain={[0,35]}/>
+                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:12}} width={58}/>
+                  <Tooltip content={<ChartTip/>}/>
+                  <Bar dataKey="pov" name="Poverty rate" radius={[0,4,4,0]}>{povertyChartData.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div>
+            <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#5B21B6", margin:"0 0 8px" }}>Uninsured Rate by Ward</p>
+            <div role="img" aria-label={`Bar chart: uninsured rate by ward. ${insDesc}`}>
+              <ResponsiveContainer width="100%" height={220}>
+                <BarChart data={uninsuredChartData} layout="vertical" barSize={18} margin={{left:10,right:30}}>
+                  <XAxis type="number" tick={{fill:T.textMut,fontSize:10}} tickFormatter={v=>`${v}%`} domain={[0,22]}/>
+                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:12}} width={58}/>
+                  <Tooltip content={<ChartTip/>}/>
+                  <Bar dataKey="rate" name="Uninsured rate" radius={[0,4,4,0]}>{uninsuredChartData.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Full comparison table */}
+      <section aria-labelledby="ward-table-h">
+        <h2 id="ward-table-h" style={{ fontSize:16, fontWeight:700, color:T.text, margin:"0 0 12px" }}>Ward-by-Ward Summary Table</h2>
+        <div style={{ overflowX:"auto" }}>
+          <table style={{ width:"100%", borderCollapse:"collapse", background:T.bg }}>
+            <thead>
+              <tr>
+                <th scope="col" style={thS}>Ward</th>
+                <th scope="col" style={thS}>Neighborhoods</th>
+                <th scope="col" style={thS}>Population</th>
+                <th scope="col" style={thS}>% Black</th>
+                <th scope="col" style={thS}>Median Income</th>
+                <th scope="col" style={thS}>Poverty</th>
+                <th scope="col" style={thS}>Uninsured</th>
+                <th scope="col" style={thS}>Depression Rate</th>
+                <th scope="col" style={thS}>Shortage Status</th>
+                <th scope="col" style={thS}>Need Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              {wards.map(w => (
+                <tr key={w.number} style={{ background: w.severity==="critical"||w.severity==="high" ? "#FFF5F5" : T.bg }}>
+                  <td style={{ ...tds, fontWeight:700 }}>{w.name}</td>
+                  <td style={{ ...tds, fontSize:11, maxWidth:200 }}>{w.neighborhoods.split(",").slice(0,3).join(", ")}{w.neighborhoods.split(",").length > 3 ? " + more" : ""}</td>
+                  <td style={tds}>{w.population}</td>
+                  <td style={tds}>{w.pctBlack}</td>
+                  <td style={{ ...tds, fontFamily:"monospace" }}>{w.medianIncome}</td>
+                  <td style={{ ...tds, fontWeight:700, color: parseFloat(w.povertyRate)>=20?"#991B1B":parseFloat(w.povertyRate)>=14?"#92400E":T.textSub }}>{w.povertyRate}</td>
+                  <td style={{ ...tds, fontWeight:700, color: parseFloat(w.uninsuredRate)>=15?"#991B1B":parseFloat(w.uninsuredRate)>=10?"#92400E":T.textSub }}>{w.uninsuredRate}</td>
+                  <td style={{ ...tds, fontWeight:700, color: w.depressionRate>=22?"#991B1B":w.depressionRate>=18?"#92400E":T.textSub }}>{w.depressionRate}%</td>
+                  <td style={tds}>{w.shortage}</td>
+                  <td style={tds}><Tag color={severityColor(w.severity)}>{severityLabel(w.severity)}</Tag></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/*
+ * WardDetail — full deep-dive card for a single ward.
+ * PSEUDO-CODE:
+ *   1. Render ward header with key stats grid.
+ *   2. Render context narrative paragraph.
+ *   3. Render three resource tables: MH providers, DPR centers, peer/faith.
+ *   4. Render app opportunity callout box.
+ * 508: Sections have aria-labelledby; resource tables have th scope="col".
+ */
+function WardDetail({ ward }) {
+  const sc = severityColor(ward.severity);
+  const thS = { padding:"7px 10px", textAlign:"left", fontSize:10, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"7px 10px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
+
+  function ResourceSection({ title, items, accent }) {
+    return (
+      <section aria-labelledby={`ward${ward.number}-${title.replace(/\s/g,"-")}`} style={{ marginBottom:20 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
+          <div style={{ width:4, height:18, background:accent, borderRadius:2 }} aria-hidden="true" />
+          <h3 id={`ward${ward.number}-${title.replace(/\s/g,"-")}`} style={{ fontSize:14, fontWeight:700, color:T.text, margin:0 }}>{title}</h3>
+        </div>
+        <div style={{ overflowX:"auto" }}>
+          <table style={{ width:"100%", borderCollapse:"collapse", background:T.bg }}>
+            <thead><tr>
+              <th scope="col" style={thS}>Resource</th>
+              <th scope="col" style={thS}>Type</th>
+              <th scope="col" style={thS}>Cost</th>
+              <th scope="col" style={thS}>Phone</th>
+              <th scope="col" style={thS}>Notes</th>
+            </tr></thead>
+            <tbody>{items.map((item,i) => (
+              <tr key={i}><td style={{ ...tds, fontWeight:600 }}>
+                {item.url ? <ExtLink href={item.url}>{item.name}</ExtLink> : item.name}
+              </td>
+              <td style={tds}>{item.type}</td>
+              <td style={tds}><Tag color={item.cost==="Free"||item.cost==="FREE"?"#065F46":item.cost.includes("sliding")?"#1E40AF":"#92400E"}>{item.cost}</Tag></td>
+              <td style={{ ...tds, fontFamily:"monospace", whiteSpace:"nowrap" }}>{item.phone||"—"}</td>
+              <td style={{ ...tds, fontSize:11 }}>{item.notes}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <article aria-label={`${ward.name} detailed mental health profile`}
+      style={{ background:T.bgCard, border:"1px solid "+T.border, borderRadius:14, padding:24, borderLeft:"6px solid "+sc }}>
+
+      {/* Ward header */}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16, flexWrap:"wrap", gap:12 }}>
+        <div>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
+            <h2 style={{ fontSize:20, fontWeight:700, color:sc, margin:0 }}>{ward.name}</h2>
+            <Tag color={sc}>{severityLabel(ward.severity)}</Tag>
+          </div>
+          <p style={{ fontSize:12, color:T.textMut, margin:0 }}>{ward.neighborhoods}</p>
+        </div>
+      </div>
+
+      {/* Key stats grid */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:10, marginBottom:16 }}>
+        {[
+          { label:"Population",         value:ward.population },
+          { label:"Black residents",     value:ward.pctBlack },
+          { label:"Median income",       value:ward.medianIncome },
+          { label:"Poverty rate",        value:ward.povertyRate },
+          { label:"Uninsured",           value:ward.uninsuredRate },
+          { label:"Depression rate",     value:ward.depressionRate+"%", highlight: ward.depressionRate >= 22 },
+          { label:"Poor MH days/mo",     value:ward.poorMHDays },
+          { label:"HRSA shortage",       value:ward.shortage },
+          { label:"Provider density",    value:ward.providerDensity.split(" — ")[0] },
+          { label:"Hispanic residents",  value:ward.pctHispanic },
+        ].map((s,i) => (
+          <div key={i} style={{ background:T.bgSub, borderRadius:8, padding:"8px 10px", borderTop: s.highlight ? "3px solid #991B1B" : "3px solid transparent" }}>
+            <div style={{ fontSize:11, color:T.textMut, marginBottom:3 }}>{s.label}</div>
+            <div style={{ fontSize:14, fontWeight:700, color: s.highlight ? "#991B1B" : T.text, fontFamily:"monospace" }}>{s.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Context */}
+      <div style={{ background: sc+"10", border:"1px solid "+sc+"30", borderRadius:8, padding:"12px 14px", marginBottom:20 }}>
+        <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:sc, margin:"0 0 5px" }}>Ward Context</p>
+        <p style={{ fontSize:12, color:T.textSub, margin:0, lineHeight:1.7 }}>{ward.context}</p>
+      </div>
+
+      {/* Resource tables */}
+      <ResourceSection title="Mental Health Providers" items={ward.mh_resources} accent="#1E40AF" />
+      <ResourceSection title="DC DPR Free Wellness Centers" items={ward.dpr_centers} accent="#065F46" />
+      <ResourceSection title="Peer Support & Faith-Based Resources" items={ward.peer_faith} accent="#5B21B6" />
+
+      {/* App opportunity */}
+      <div style={{ background:"#EFF6FF", border:"1px solid #BFDBFE", borderRadius:8, padding:"12px 14px" }}>
+        <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#1E40AF", margin:"0 0 5px" }}>App Opportunity for This Ward</p>
+        <p style={{ fontSize:12, color:T.textSub, margin:0, lineHeight:1.6 }}>{ward.app_opportunity}</p>
+      </div>
+    </article>
+  );
+}
+
+/*
+ * WardSelector — tabbed ward selector showing one ward at a time.
+ * PSEUDO-CODE:
+ *   1. useState tracks which ward number is currently selected.
+ *   2. Render 8 ward selector buttons in a row.
+ *   3. WHEN button clicked: set activeWard to that number.
+ *   4. Render WardDetail for the currently selected ward.
+ * 508: Buttons use role="tab" + aria-selected; wrapper uses role="tablist".
+ */
+function WardSelector({ wards }) {
+  const [active, setActive] = useState(8); /* Start on Ward 8 — highest need */
+  const activeWard = wards.find(w => w.number === active);
+
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+      <div>
+        <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:T.textMut, margin:"0 0 8px" }}>
+          Select a Ward — Starting with Ward 8 (Highest Need)
+        </p>
+        {/* Ward picker */}
+        <div role="tablist" aria-label="DC ward selector" style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+          {wards.map(w => {
+            const on = active === w.number;
+            const sc = severityColor(w.severity);
+            return (
+              <button key={w.number} role="tab" aria-selected={on?"true":"false"}
+                onClick={() => setActive(w.number)}
+                style={{ background:on?sc:"transparent", border:"2px solid "+(on?sc:T.border), color:on?"#fff":T.textMut, borderRadius:8, padding:"6px 14px", cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
+                {w.name}
+                {(w.severity==="critical"||w.severity==="high") && (
+                  <span aria-hidden="true" style={{ marginLeft:4, fontSize:10 }}>⚠</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
+        {[["critical","#991B1B"],["high","#B91C1C"],["moderate-high","#92400E"],["moderate","#1E40AF"],["low","#065F46"]].map(([s,c]) => (
+          <div key={s} style={{ display:"flex", alignItems:"center", gap:5 }}>
+            <div style={{ width:10, height:10, borderRadius:2, background:c }} aria-hidden="true" />
+            <span style={{ fontSize:11, color:T.textMut }}>{severityLabel(s)}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Active ward detail */}
+      {activeWard && <WardDetail ward={activeWard} />}
+    </div>
+  );
+}
+
 export default function App() {
   const [view,   setView]   = useState("q1");
   const [subTab, setSubTab] = useState("overview");
@@ -1015,7 +1328,7 @@ export default function App() {
       subTabs:[
         {id:"overview",    label:"Regional Overview"},
         {id:"underserved", label:"Underserved Areas"},
-        {id:"dc",          label:"Washington DC"},
+        {id:"dc",          label:"Washington DC"}, {id:"wards",        label:"All 8 Wards — Detail"}, {id:"wards-overview", label:"Wards Comparison"},
         {id:"maryland",    label:"Maryland"},
         {id:"virginia",    label:"Virginia"},
         {id:"datasets",    label:"DMV Data Sources"},
@@ -1103,7 +1416,9 @@ export default function App() {
         {view==="dmv" && subTab==="dc"          && <DMVResourcesDC d={DMV} />}
         {view==="dmv" && subTab==="maryland"    && <DMVResourcesMD d={DMV} />}
         {view==="dmv" && subTab==="virginia"    && <DMVResourcesVA d={DMV} />}
-        {view==="dmv" && subTab==="datasets"    && <DMVDatasets    d={DMV} />}
+        {view==="dmv" && subTab==="datasets"       && <DMVDatasets    d={DMV} />}
+        {view==="dmv" && subTab==="wards"          && <WardSelector   wards={WARDS} />}
+        {view==="dmv" && subTab==="wards-overview" && <WardOverview   wards={WARDS} />}
 
         {/* All datasets section */}
         {view==="datasets"                      && <DatasetsView   d={DATA.datasets} />}
