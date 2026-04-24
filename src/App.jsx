@@ -40,6 +40,8 @@ const T = {
   text:    "#0F172A",
   textSub: "#1E293B",
   textMut: "#475569",
+  /* Base text size used throughout — slightly larger for readability */
+  base: 14,
 };
 
 /* ============================================================
@@ -53,7 +55,7 @@ const T = {
 function ChartTip({ active, payload, label }) {
   if (!active || !payload || !payload.length) return null;
   return (
-    <div role="tooltip" style={{ background:"#1E293B", border:"1px solid #334155", borderRadius:8, padding:"10px 14px", fontSize:13, color:"#F1F5F9", maxWidth:260 }}>
+    <div role="tooltip" style={{ background:"#1E293B", border:"1px solid #334155", borderRadius:8, padding:"10px 14px", fontSize:15, color:"#F1F5F9", maxWidth:260 }}>
       <p style={{ margin:"0 0 4px", fontWeight:700 }}>{label}</p>
       {payload.map((p,i) => (
         <p key={i} style={{ margin:0 }}>{p.name || p.dataKey}: <strong>{p.value}{typeof p.value==="number"&&p.value<=100?"%":""}</strong></p>
@@ -65,7 +67,7 @@ function ChartTip({ active, payload, label }) {
 /* Eyebrow: decorative uppercase label above a heading.
    508: aria-hidden="true" — the h2 is the semantic heading, this is decorative. */
 function Eyebrow({ text, color }) {
-  return <p aria-hidden="true" style={{ fontSize:10, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", color:color||T.textMut, margin:"0 0 4px" }}>{text}</p>;
+  return <p aria-hidden="true" style={{ fontSize:12, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", color:color||T.textMut, margin:"0 0 4px" }}>{text}</p>;
 }
 
 /* Card: white card container with optional left accent stripe.
@@ -83,8 +85,8 @@ function StatCard({ val, label, color, src }) {
   return (
     <article aria-label={`${val}: ${label}. Source: ${src}`} style={{ background:T.bgCard, border:"1px solid "+T.border, borderRadius:12, padding:"16px 18px", borderLeft:"4px solid "+color }}>
       <div style={{ fontSize:32, fontWeight:700, color, fontFamily:"monospace", lineHeight:1 }}>{val}</div>
-      <div style={{ fontSize:13, color:T.textSub, marginTop:6, lineHeight:1.4 }}>{label}</div>
-      <div style={{ fontSize:11, color:T.textMut, marginTop:5 }}>Source: {src}</div>
+      <div style={{ fontSize:15, color:T.textSub, marginTop:6, lineHeight:1.4 }}>{label}</div>
+      <div style={{ fontSize:15, color:T.textMut, marginTop:5 }}>Source: {src}</div>
     </article>
   );
 }
@@ -93,7 +95,7 @@ function StatCard({ val, label, color, src }) {
    508: Text (not color) carries meaning — color is supplemental. */
 function Tag({ children, color }) {
   const c = color||T.textMut;
-  return <span style={{ display:"inline-block", background:c+"25", color:c, border:"1px solid "+c+"50", borderRadius:12, padding:"2px 9px", fontSize:11, fontWeight:600, whiteSpace:"nowrap" }}>{children}</span>;
+  return <span style={{ display:"inline-block", background:c+"25", color:c, border:"1px solid "+c+"50", borderRadius:12, padding:"2px 9px", fontSize:15, fontWeight:600, whiteSpace:"nowrap" }}>{children}</span>;
 }
 
 /* ExtLink: anchor that opens in a new tab.
@@ -122,8 +124,8 @@ function PBar({ label, pct, color, note, detail, expanded, onToggle }) {
     <div style={{ marginBottom:14 }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
         <button aria-expanded={expanded?"true":"false"} aria-controls={panelId} onClick={onToggle}
-          style={{ background:"none", border:"none", cursor:"pointer", textAlign:"left", color:T.text, fontSize:13, fontWeight:500, padding:0, display:"flex", alignItems:"center", gap:6, fontFamily:"inherit" }}>
-          <span aria-hidden="true" style={{ color, fontSize:10, minWidth:10 }}>{expanded?"▼":"▶"}</span>
+          style={{ background:"none", border:"none", cursor:"pointer", textAlign:"left", color:T.text, fontSize:15, fontWeight:500, padding:0, display:"flex", alignItems:"center", gap:6, fontFamily:"inherit" }}>
+          <span aria-hidden="true" style={{ color, fontSize:12, minWidth:10 }}>{expanded?"▼":"▶"}</span>
           {label}
         </button>
         <Tag color={color}>{pct}%</Tag>
@@ -132,10 +134,10 @@ function PBar({ label, pct, color, note, detail, expanded, onToggle }) {
         style={{ background:T.bgSub, borderRadius:4, height:6 }}>
         <div style={{ width:`${pct}%`, height:"100%", background:color, borderRadius:4 }} />
       </div>
-      {!expanded && <div style={{ fontSize:11, color:T.textMut, marginTop:3 }}>{note}</div>}
+      {!expanded && <div style={{ fontSize:15, color:T.textMut, marginTop:3 }}>{note}</div>}
       {expanded && (
         <div id={panelId} role="region" aria-label={`Details for ${label}`}
-          style={{ marginTop:8, background:"#EFF6FF", border:"1px solid #BFDBFE", borderRadius:8, padding:"10px 12px", fontSize:12, color:T.textSub, lineHeight:1.6 }}>
+          style={{ marginTop:8, background:"#EFF6FF", border:"1px solid #BFDBFE", borderRadius:8, padding:"10px 12px", fontSize:14, color:T.textSub, lineHeight:1.6 }}>
           {detail||note}
         </div>
       )}
@@ -153,7 +155,7 @@ function TabBar({ tabs, active, onSelect, accent }) {
         const on = active===t.id;
         return (
           <button key={t.id} role="tab" aria-selected={on?"true":"false"} onClick={()=>onSelect(t.id)}
-            style={{ background:"none", border:"none", borderBottom:on?`3px solid ${accent||T.textMut}`:"3px solid transparent", color:on?(accent||T.textSub):T.textMut, padding:"10px 16px", cursor:"pointer", fontSize:13, fontWeight:on?700:400, fontFamily:"inherit", whiteSpace:"nowrap", transition:"all 0.15s" }}>
+            style={{ background:"none", border:"none", borderBottom:on?`3px solid ${accent||T.textMut}`:"3px solid transparent", color:on?(accent||T.textSub):T.textMut, padding:"10px 16px", cursor:"pointer", fontSize:15, fontWeight:on?700:400, fontFamily:"inherit", whiteSpace:"nowrap", transition:"all 0.15s" }}>
             {t.label}
           </button>
         );
@@ -194,8 +196,8 @@ function Q1Overview({ d }) {
           <div role="img" aria-label={`Horizontal bar chart: treatment rates by race. ${raceDesc}`}>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={d.treatment_by_race} layout="vertical" barSize={22} margin={{left:10}}>
-                <XAxis type="number" tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`} domain={[0,28]}/>
-                <YAxis type="category" dataKey="group" tick={{fill:T.textSub,fontSize:12}} width={120}/>
+                <XAxis type="number" tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`} domain={[0,28]}/>
+                <YAxis type="category" dataKey="group" tick={{fill:T.textSub,fontSize:14}} width={120}/>
                 <Tooltip content={<ChartTip/>}/>
                 <Bar dataKey="rate" name="Treatment rate" radius={[0,4,4,0]}>{d.treatment_by_race.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
               </BarChart>
@@ -208,8 +210,8 @@ function Q1Overview({ d }) {
           <div role="img" aria-label={`Bar chart: treatment rates by age group. ${ageDesc}`}>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={d.treatment_by_age} barSize={40}>
-                <XAxis dataKey="age" tick={{fill:T.textSub,fontSize:12}}/>
-                <YAxis tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`}/>
+                <XAxis dataKey="age" tick={{fill:T.textSub,fontSize:14}}/>
+                <YAxis tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`}/>
                 <Tooltip content={<ChartTip/>}/>
                 <Bar dataKey="pct" name="Treatment rate" fill="#065F46" radius={[4,4,0,0]}/>
               </BarChart>
@@ -220,12 +222,12 @@ function Q1Overview({ d }) {
       <Card>
         <Eyebrow text="Source: PLOS One 2025 — 38-study systematic review" color="#5B21B6"/>
         <h2 style={{ fontSize:16, fontWeight:700, color:T.text, margin:"0 0 4px" }}>App Retention Funnel</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 14px" }}>Only 4.7% of users who download a MH app are still active at day 30. This engagement collapse is the sector's defining challenge.</p>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 14px" }}>Only 4.7% of users who download a MH app are still active at day 30. This engagement collapse is the sector's defining challenge.</p>
         <div role="img" aria-label={`Bar chart: app retention funnel. ${funDesc}`}>
           <ResponsiveContainer width="100%" height={150}>
             <BarChart data={d.funnel} barSize={62}>
-              <XAxis dataKey="stage" tick={{fill:T.textSub,fontSize:11}}/>
-              <YAxis tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`}/>
+              <XAxis dataKey="stage" tick={{fill:T.textSub,fontSize:15}}/>
+              <YAxis tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`}/>
               <Tooltip content={<ChartTip/>}/>
               <Bar dataKey="value" name="Users remaining" radius={[5,5,0,0]}>{d.funnel.map((f,i)=><Cell key={i} fill={f.fill}/>)}</Bar>
             </BarChart>
@@ -234,13 +236,13 @@ function Q1Overview({ d }) {
       </Card>
       <section aria-labelledby="q1cc-h">
         <h2 id="q1cc-h" style={{ fontSize:17, fontWeight:700, color:T.text, margin:"0 0 6px" }}>Care Continuum: The App as On-Ramp</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 14px" }}>Four rungs from digital self-care to clinical care. Alternative resources expand each rung's population.</p>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 14px" }}>Four rungs from digital self-care to clinical care. Alternative resources expand each rung's population.</p>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12 }}>
           {d.care_continuum.map(r=>(
             <Card key={r.rung} accent={r.color} style={{padding:14}}>
               <div style={{ fontSize:26, fontWeight:700, color:r.color, fontFamily:"monospace", marginBottom:6 }}>{r.rung}</div>
-              <h3 style={{ fontSize:13, fontWeight:700, color:T.text, margin:"0 0 5px" }}>{r.label}</h3>
-              <p style={{ fontSize:12, color:T.textMut, margin:0, lineHeight:1.5 }}>{r.desc}</p>
+              <h3 style={{ fontSize:15, fontWeight:700, color:T.text, margin:"0 0 5px" }}>{r.label}</h3>
+              <p style={{ fontSize:14, color:T.textMut, margin:0, lineHeight:1.5 }}>{r.desc}</p>
             </Card>
           ))}
         </div>
@@ -293,12 +295,12 @@ function Q1Capabilities({ d }) {
       <Card>
         <Eyebrow text="Source: PLOS One 2025, 38-study systematic review" color="#065F46"/>
         <h2 style={{ fontSize:17, fontWeight:700, color:T.text, margin:"0 0 4px" }}>10 App Features — Evidence Impact Scores (0–100)</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 14px" }}>Crisis tools and 24/7 access score highest because they address structural gaps that therapy cannot fill.</p>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 14px" }}>Crisis tools and 24/7 access score highest because they address structural gaps that therapy cannot fill.</p>
         <div role="img" aria-label={`Horizontal bar chart of feature impact scores. ${desc}`}>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={d.capabilities} layout="vertical" barSize={20} margin={{left:20}}>
-              <XAxis type="number" tick={{fill:T.textMut,fontSize:11}} domain={[0,100]}/>
-              <YAxis type="category" dataKey="cap" tick={{fill:T.textSub,fontSize:11}} width={195}/>
+              <XAxis type="number" tick={{fill:T.textMut,fontSize:15}} domain={[0,100]}/>
+              <YAxis type="category" dataKey="cap" tick={{fill:T.textSub,fontSize:15}} width={195}/>
               <Tooltip content={<ChartTip/>}/>
               <Bar dataKey="impact" name="Impact score" radius={[0,5,5,0]}>{d.capabilities.map((c,i)=><Cell key={i} fill={c.color}/>)}</Bar>
             </BarChart>
@@ -310,8 +312,8 @@ function Q1Capabilities({ d }) {
           <div key={i} style={{ background:T.bgSub, border:"1px solid "+T.border, borderRadius:10, padding:"12px 14px", display:"flex", gap:14, alignItems:"flex-start" }}>
             <div style={{ fontSize:24, fontWeight:700, color:c.color, fontFamily:"monospace", minWidth:44 }}>{c.impact}</div>
             <div>
-              <h3 style={{ fontSize:13, fontWeight:700, color:T.text, margin:"0 0 3px" }}>{c.cap}</h3>
-              <p style={{ fontSize:11, color:T.textMut, margin:0 }}>Addresses: {c.barrier}</p>
+              <h3 style={{ fontSize:15, fontWeight:700, color:T.text, margin:"0 0 3px" }}>{c.cap}</h3>
+              <p style={{ fontSize:15, color:T.textMut, margin:0 }}>Addresses: {c.barrier}</p>
             </div>
           </div>
         ))}
@@ -333,14 +335,14 @@ function Q1Bridge({ d }) {
       <Card>
         <Eyebrow text="DMV local market estimates (thousands of potential users)" color="#065F46"/>
         <h2 style={{ fontSize:17, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Potential Reach: Clinical Listings Only vs. With Alternative Resources</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 14px" }}>Adding yoga studios, DC DPR programs, faith-based ministries, and community wellness dramatically expands the addressable user base.</p>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 14px" }}>Adding yoga studios, DC DPR programs, faith-based ministries, and community wellness dramatically expands the addressable user base.</p>
         <div role="img" aria-label={`Grouped bar chart comparing reach. ${dmvDesc}`}>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={d.dmv_data} barGap={4} barSize={28}>
-              <XAxis dataKey="segment" tick={{fill:T.textSub,fontSize:10}}/>
-              <YAxis tick={{fill:T.textMut,fontSize:11}} label={{value:"K users",angle:-90,position:"insideLeft",fill:T.textMut,fontSize:11}}/>
+              <XAxis dataKey="segment" tick={{fill:T.textSub,fontSize:12}}/>
+              <YAxis tick={{fill:T.textMut,fontSize:15}} label={{value:"K users",angle:-90,position:"insideLeft",fill:T.textMut,fontSize:15}}/>
               <Tooltip content={<ChartTip/>}/>
-              <Legend wrapperStyle={{fontSize:12,color:T.textSub}}/>
+              <Legend wrapperStyle={{fontSize:14,color:T.textSub}}/>
               <Bar dataKey="before" name="Clinical listings only" fill="#94A3B8" radius={[3,3,0,0]}/>
               <Bar dataKey="after"  name="With alt resources"     fill="#065F46" radius={[3,3,0,0]}/>
             </BarChart>
@@ -354,8 +356,8 @@ function Q1Bridge({ d }) {
             <li key={s.icon} style={{ background:T.bgCard, border:"1px solid "+T.border, borderRadius:10, padding:"14px 16px", display:"flex", gap:12 }}>
               <div aria-hidden="true" style={{ fontSize:20, fontWeight:700, color:"#065F46", fontFamily:"monospace", minWidth:28 }}>{s.icon}</div>
               <div>
-                <h3 style={{ fontSize:13, fontWeight:700, color:T.text, margin:"0 0 5px" }}>{s.title}</h3>
-                <p style={{ fontSize:12, color:T.textMut, lineHeight:1.5, margin:"0 0 6px" }}>{s.desc}</p>
+                <h3 style={{ fontSize:15, fontWeight:700, color:T.text, margin:"0 0 5px" }}>{s.title}</h3>
+                <p style={{ fontSize:14, color:T.textMut, lineHeight:1.5, margin:"0 0 6px" }}>{s.desc}</p>
                 <Tag color="#065F46">{s.src}</Tag>
               </div>
             </li>
@@ -373,12 +375,12 @@ function Q1AltResources({ d }) {
   return (
     <section aria-labelledby="q1altres-h">
       <h2 id="q1altres-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 6px" }}>Full Alternative Resource Taxonomy</h2>
-      <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>8 non-clinical resource categories an app can surface — expanding reach into groups who would never book a therapist.</p>
+      <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>8 non-clinical resource categories an app can surface — expanding reach into groups who would never book a therapist.</p>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:14 }}>
         {d.alt_resource_taxonomy.map((a,i)=>(
           <Card key={i} accent={a.color}>
             <h3 style={{ fontSize:14, fontWeight:700, color:a.color, margin:"0 0 6px" }}>{a.cat}</h3>
-            <p style={{ fontSize:12, color:T.textSub, margin:0, lineHeight:1.6 }}>{a.examples}</p>
+            <p style={{ fontSize:14, color:T.textSub, margin:0, lineHeight:1.6 }}>{a.examples}</p>
           </Card>
         ))}
       </div>
@@ -411,12 +413,12 @@ function Q2Overview({ d }) {
         <Card>
           <Eyebrow text="Sources: SAMHSA NSDUH 2023 + AHRQ MEPS 2023" color="#5B21B6"/>
           <h2 style={{ fontSize:16, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Treatment Gap Funnel</h2>
-          <p style={{ fontSize:12, color:T.textMut, margin:"0 0 14px" }}>Percentage of all adults with any MH condition who fall into each treatment category.</p>
+          <p style={{ fontSize:14, color:T.textMut, margin:"0 0 14px" }}>Percentage of all adults with any MH condition who fall into each treatment category.</p>
           <div role="img" aria-label={`Treatment gap funnel. ${gapDesc}`}>
             <ResponsiveContainer width="100%" height={230}>
               <BarChart data={d.treatment_gap} layout="vertical" barSize={24} margin={{left:10}}>
-                <XAxis type="number" tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`} domain={[0,110]}/>
-                <YAxis type="category" dataKey="label" tick={{fill:T.textSub,fontSize:11}} width={155}/>
+                <XAxis type="number" tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`} domain={[0,110]}/>
+                <YAxis type="category" dataKey="label" tick={{fill:T.textSub,fontSize:15}} width={155}/>
                 <Tooltip content={<ChartTip/>}/>
                 <Bar dataKey="value" name="Percent of adults" radius={[0,4,4,0]}>{d.treatment_gap.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
               </BarChart>
@@ -426,12 +428,12 @@ function Q2Overview({ d }) {
         <Card>
           <Eyebrow text="Sources: KFF 2023, NCS-R PMC, NAMI 2024, HRSA, APA 2022" color="#991B1B"/>
           <h2 style={{ fontSize:16, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Why People Skip Therapy</h2>
-          <p style={{ fontSize:12, color:T.textMut, margin:"0 0 14px" }}>Most people cite 2–3 reasons simultaneously. Cost (80%) and self-reliance (72.6%) top the list.</p>
+          <p style={{ fontSize:14, color:T.textMut, margin:"0 0 14px" }}>Most people cite 2–3 reasons simultaneously. Cost (80%) and self-reliance (72.6%) top the list.</p>
           <div role="img" aria-label={`Avoidance reasons. ${avoDesc}`}>
             <ResponsiveContainer width="100%" height={230}>
               <BarChart data={d.avoidance_reasons} layout="vertical" barSize={18} margin={{left:10}}>
-                <XAxis type="number" tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`} domain={[0,100]}/>
-                <YAxis type="category" dataKey="reason" tick={{fill:T.textSub,fontSize:10}} width={190}/>
+                <XAxis type="number" tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`} domain={[0,100]}/>
+                <YAxis type="category" dataKey="reason" tick={{fill:T.textSub,fontSize:12}} width={190}/>
                 <Tooltip content={<ChartTip/>}/>
                 <Bar dataKey="pct" name="% citing reason" radius={[0,4,4,0]}>{d.avoidance_reasons.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
               </BarChart>
@@ -446,8 +448,8 @@ function Q2Overview({ d }) {
             <article key={i} aria-label={`${o.metric}: ${o.value} percent. ${o.note}`}
               style={{ background:T.bgSub, border:"1px solid "+T.border, borderRadius:10, padding:14, textAlign:"center", borderTop:"4px solid "+o.fill }}>
               <div style={{ fontSize:28, fontWeight:700, color:o.fill, fontFamily:"monospace" }}>{o.value}%</div>
-              <h3 style={{ fontSize:12, fontWeight:700, color:T.text, margin:"6px 0 5px", lineHeight:1.3 }}>{o.metric}</h3>
-              <p style={{ fontSize:10, color:T.textMut, margin:0, lineHeight:1.4 }}>{o.note}</p>
+              <h3 style={{ fontSize:14, fontWeight:700, color:T.text, margin:"6px 0 5px", lineHeight:1.3 }}>{o.metric}</h3>
+              <p style={{ fontSize:12, color:T.textMut, margin:0, lineHeight:1.4 }}>{o.note}</p>
             </article>
           ))}
         </div>
@@ -476,10 +478,10 @@ function Q2Demographics({ d }) {
           <div role="img" aria-label={`Grouped bar chart by sex. ${sexDesc}`}>
             <ResponsiveContainer width="100%" height={155}>
               <BarChart data={d.by_sex} barSize={44} barGap={6}>
-                <XAxis dataKey="group" tick={{fill:T.textSub,fontSize:13}}/>
-                <YAxis tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`}/>
+                <XAxis dataKey="group" tick={{fill:T.textSub,fontSize:15}}/>
+                <YAxis tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`}/>
                 <Tooltip content={<ChartTip/>}/>
-                <Legend wrapperStyle={{fontSize:11,color:T.textSub}}/>
+                <Legend wrapperStyle={{fontSize:15,color:T.textSub}}/>
                 <Bar dataKey="avoid" name="Avoids therapy" fill="#991B1B" radius={[4,4,0,0]}/>
                 <Bar dataKey="seek"  name="Seeks help"     fill="#5B21B6" radius={[4,4,0,0]}/>
               </BarChart>
@@ -487,7 +489,7 @@ function Q2Demographics({ d }) {
           </div>
           <ul style={{ listStyle:"none", padding:0, margin:"10px 0 0" }}>
             {d.by_sex.map((s,i)=>(
-              <li key={i} style={{ fontSize:11, color:T.textMut, padding:"4px 0", borderTop:"1px solid "+T.border }}>
+              <li key={i} style={{ fontSize:15, color:T.textMut, padding:"4px 0", borderTop:"1px solid "+T.border }}>
                 <strong style={{color:T.textSub}}>{s.group}:</strong> {s.note}
               </li>
             ))}
@@ -499,10 +501,10 @@ function Q2Demographics({ d }) {
           <div role="img" aria-label={`Grouped bar chart by race. ${racDesc}`}>
             <ResponsiveContainer width="100%" height={205}>
               <BarChart data={d.by_race} barSize={16} barGap={2}>
-                <XAxis dataKey="race" tick={{fill:T.textSub,fontSize:11}}/>
-                <YAxis tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`}/>
+                <XAxis dataKey="race" tick={{fill:T.textSub,fontSize:15}}/>
+                <YAxis tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`}/>
                 <Tooltip content={<ChartTip/>}/>
-                <Legend wrapperStyle={{fontSize:10,color:T.textSub}}/>
+                <Legend wrapperStyle={{fontSize:12,color:T.textSub}}/>
                 <Bar dataKey="treatmentRate" name="Treatment rate"  fill="#065F46" radius={[2,2,0,0]}/>
                 <Bar dataKey="avoidance"     name="Avoidance %"     fill="#991B1B" radius={[2,2,0,0]}/>
                 <Bar dataKey="stigmaScore"   name="Stigma barrier"  fill="#92400E" radius={[2,2,0,0]}/>
@@ -514,14 +516,14 @@ function Q2Demographics({ d }) {
       <Card>
         <Eyebrow text="Sources: SAMHSA NSDUH 2023 + data.ai 2024" color="#5B21B6"/>
         <h2 style={{ fontSize:15, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Age: Avoidance / Help-Seeking / App Use</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 14px" }}>Avoidance rises sharply with age. App use collapses from 38% (18–25) to just 5% (65+).</p>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 14px" }}>Avoidance rises sharply with age. App use collapses from 38% (18–25) to just 5% (65+).</p>
         <div role="img" aria-label={`Grouped bar chart by age group. ${ageDesc}`}>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={d.by_age} barSize={24} barGap={3}>
-              <XAxis dataKey="age" tick={{fill:T.textSub,fontSize:12}}/>
-              <YAxis tick={{fill:T.textMut,fontSize:11}} tickFormatter={v=>`${v}%`}/>
+              <XAxis dataKey="age" tick={{fill:T.textSub,fontSize:14}}/>
+              <YAxis tick={{fill:T.textMut,fontSize:15}} tickFormatter={v=>`${v}%`}/>
               <Tooltip content={<ChartTip/>}/>
-              <Legend wrapperStyle={{fontSize:11,color:T.textSub}}/>
+              <Legend wrapperStyle={{fontSize:15,color:T.textSub}}/>
               <Bar dataKey="avoid"  name="Avoidance %" fill="#991B1B" radius={[3,3,0,0]}/>
               <Bar dataKey="seek"   name="Seek help %"  fill="#5B21B6" radius={[3,3,0,0]}/>
               <Bar dataKey="appUse" name="App use %"    fill="#065F46" radius={[3,3,0,0]}/>
@@ -530,7 +532,7 @@ function Q2Demographics({ d }) {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:8, marginTop:12 }}>
           {d.by_age.map(a=>(
-            <div key={a.age} style={{ fontSize:10, color:T.textMut, background:T.bgSub, borderRadius:6, padding:"6px 8px", lineHeight:1.4 }}>
+            <div key={a.age} style={{ fontSize:12, color:T.textMut, background:T.bgSub, borderRadius:6, padding:"6px 8px", lineHeight:1.4 }}>
               <strong style={{color:T.textSub}}>{a.age}:</strong> {a.note}
             </div>
           ))}
@@ -542,7 +544,7 @@ function Q2Demographics({ d }) {
           {d.alt_by_demo.map((a,i)=>(
             <article key={i} aria-label={`${a.group}: top alternative is ${a.topAlt} at ${a.pct} percent`}
               style={{ background:T.bgSub, border:"1px solid "+T.border, borderRadius:10, padding:"12px 14px" }}>
-              <div style={{ fontSize:11, fontWeight:700, color:T.textMut, marginBottom:4 }}>{a.group}</div>
+              <div style={{ fontSize:15, fontWeight:700, color:T.textMut, marginBottom:4 }}>{a.group}</div>
               <div style={{ fontSize:14, fontWeight:700, color:"#5B21B6", marginBottom:2 }}>{a.topAlt}</div>
               <div style={{ fontSize:28, fontWeight:700, color:T.text, fontFamily:"monospace" }}>{a.pct}%</div>
             </article>
@@ -562,7 +564,7 @@ function Q2Alternatives({ d }) {
     <Card>
       <Eyebrow text="Sources: AHRQ FASTER, CDC BRFSS, SAMHSA NSDUH, data.ai, Gallup, NAMI" color="#5B21B6"/>
       <h2 style={{ fontSize:17, fontWeight:700, color:T.text, margin:"0 0 4px" }}>What People Do Instead of Therapy</h2>
-      <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>More than half of U.S. adults with MH conditions manage without professional support. Each category is a potential entry point for app features or partnerships.</p>
+      <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>More than half of U.S. adults with MH conditions manage without professional support. Each category is a potential entry point for app features or partnerships.</p>
       <ul style={{ listStyle:"none", padding:0, margin:0 }}>
         {d.alternatives.map((a,i)=>(
           <li key={i} style={{ marginBottom:18, paddingBottom:18, borderBottom:i<d.alternatives.length-1?"1px solid "+T.border:"none" }}>
@@ -576,7 +578,7 @@ function Q2Alternatives({ d }) {
               <div style={{ width:`${a.pct}%`, height:"100%", background:"#5B21B6", borderRadius:4 }}/>
             </div>
             <div style={{ display:"flex", justifyContent:"space-between", gap:8, flexWrap:"wrap" }}>
-              <span style={{ fontSize:12, color:T.textMut }}>{a.detail}</span>
+              <span style={{ fontSize:14, color:T.textMut }}>{a.detail}</span>
               <Tag color="#334155">{a.src}</Tag>
             </div>
           </li>
@@ -600,17 +602,17 @@ function Q2Search({ d }) {
     <Card>
       <Eyebrow text="Sources: APA 2022, AHRQ FASTER, data.ai, Northwestern Schleider study" color="#5B21B6"/>
       <h2 style={{ fontSize:17, fontWeight:700, color:T.text, margin:"0 0 4px" }}>When Do People Search Online for Help?</h2>
-      <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>11 search triggers with urgency scores (0–100) reflecting conversion likelihood. 85+ = Very High, 70–84 = High, 55–69 = Medium, under 55 = Lower.</p>
+      <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>11 search triggers with urgency scores (0–100) reflecting conversion likelihood. 85+ = Very High, 70–84 = High, 55–69 = Medium, under 55 = Lower.</p>
       <ul style={{ listStyle:"none", padding:0, margin:0, display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
         {d.search_triggers.map((t,i)=>(
           <li key={i} aria-label={`${t.trigger}. Timing: ${t.timing}. Urgency: ${urgLabel(t.urgency)} at ${t.urgency} out of 100.`}
             style={{ background:T.bgSub, border:"1px solid "+T.border, borderRadius:10, padding:"14px 16px", borderLeft:"4px solid "+urgColor(t.urgency) }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
-              <span style={{ fontSize:13, fontWeight:700, color:T.text, lineHeight:1.3, flex:1, paddingRight:10 }}>{t.trigger}</span>
+              <span style={{ fontSize:15, fontWeight:700, color:T.text, lineHeight:1.3, flex:1, paddingRight:10 }}>{t.trigger}</span>
               <span aria-hidden="true" style={{ fontSize:22, fontWeight:700, color:urgColor(t.urgency), fontFamily:"monospace", minWidth:34, textAlign:"right" }}>{t.urgency}</span>
             </div>
             <Tag color={urgColor(t.urgency)}>{t.timing}</Tag>
-            <p style={{ fontSize:11, color:T.textMut, marginTop:8, marginBottom:0, lineHeight:1.5 }}>{t.note}</p>
+            <p style={{ fontSize:15, color:T.textMut, marginTop:8, marginBottom:0, lineHeight:1.5 }}>{t.note}</p>
           </li>
         ))}
       </ul>
@@ -637,8 +639,8 @@ function DatasetsView({ d }) {
     {id:"stats",label:"Master Stats (20)",  accent:"#991B1B"},
   ];
   const activeAccent = (innerTabs.find(t=>t.id===tab)||{}).accent||T.textMut;
-  const thS = { padding:"8px 12px", textAlign:"left", fontSize:11, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
-  const tds = (mono) => ({ padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, fontFamily:mono?"monospace":undefined, verticalAlign:"top" });
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:15, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = (mono) => ({ padding:"8px 12px", fontSize:14, color:T.textSub, borderBottom:"1px solid "+T.border, fontFamily:mono?"monospace":undefined, verticalAlign:"top" });
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
       <div style={{ borderBottom:"1px solid "+T.border }}>
@@ -747,12 +749,12 @@ function DMVOverview({ d }) {
               <ul style={{ listStyle:"none", padding:0, margin:"0 0 12px" }}>
                 {r.stats.map((s,i) => (
                   <li key={i} style={{ display:"flex", justifyContent:"space-between", padding:"5px 0", borderBottom:"1px solid "+T.border, gap:8 }}>
-                    <span style={{ fontSize:11, color:T.textMut, flex:1 }}>{s.label}</span>
-                    <span style={{ fontSize:13, fontWeight:700, color:T.text, fontFamily:"monospace", whiteSpace:"nowrap" }}>{s.value}</span>
+                    <span style={{ fontSize:15, color:T.textMut, flex:1 }}>{s.label}</span>
+                    <span style={{ fontSize:15, fontWeight:700, color:T.text, fontFamily:"monospace", whiteSpace:"nowrap" }}>{s.value}</span>
                   </li>
                 ))}
               </ul>
-              <p style={{ fontSize:11, color:T.textMut, margin:0, lineHeight:1.5 }}>{r.context}</p>
+              <p style={{ fontSize:15, color:T.textMut, margin:0, lineHeight:1.5 }}>{r.context}</p>
             </Card>
           ))}
         </div>
@@ -772,7 +774,7 @@ function DMVUnderserved({ d }) {
     <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
       <section aria-labelledby="dmv-under-h">
         <h2 id="dmv-under-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 6px" }}>Underserved Area Spotlights</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>
           Four areas in the DMV with the highest gap between need and available resources — and the highest app opportunity.
         </p>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
@@ -787,13 +789,13 @@ function DMVUnderserved({ d }) {
                 </div>
               </div>
 
-              <p style={{ fontSize:12, color:T.textSub, lineHeight:1.6, margin:"0 0 12px" }}>{a.challenge}</p>
+              <p style={{ fontSize:14, color:T.textSub, lineHeight:1.6, margin:"0 0 12px" }}>{a.challenge}</p>
 
               <div style={{ marginBottom:12 }}>
-                <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:T.textMut, margin:"0 0 6px" }}>Key Resources</p>
+                <p style={{ fontSize:12, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:T.textMut, margin:"0 0 6px" }}>Key Resources</p>
                 <ul style={{ listStyle:"none", padding:0, margin:0 }}>
                   {a.keyResources.map((r,j) => (
-                    <li key={j} style={{ fontSize:11, color:T.textSub, padding:"3px 0", paddingLeft:12, position:"relative" }}>
+                    <li key={j} style={{ fontSize:15, color:T.textSub, padding:"3px 0", paddingLeft:12, position:"relative" }}>
                       <span aria-hidden="true" style={{ position:"absolute", left:0, color:a.color }}>›</span>
                       {r}
                     </li>
@@ -802,8 +804,8 @@ function DMVUnderserved({ d }) {
               </div>
 
               <div style={{ background:T.bgSub, borderRadius:8, padding:"8px 12px" }}>
-                <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:a.color, margin:"0 0 4px" }}>App Opportunity</p>
-                <p style={{ fontSize:11, color:T.textMut, margin:0, lineHeight:1.5 }}>{a.appOpportunity}</p>
+                <p style={{ fontSize:12, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:a.color, margin:"0 0 4px" }}>App Opportunity</p>
+                <p style={{ fontSize:15, color:T.textMut, margin:0, lineHeight:1.5 }}>{a.appOpportunity}</p>
               </div>
             </article>
           ))}
@@ -822,8 +824,8 @@ function DMVUnderserved({ d }) {
          IF url exists: wrap name in ExtLink
    508: th scope="col" on all headers; cost uses Tag (text not color only). */
 function ResourceTable({ categories, accentColor }) {
-  const thS = { padding:"8px 12px", textAlign:"left", fontSize:10, fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
-  const tds = { padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:12, fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"8px 12px", fontSize:14, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:28 }}>
       {categories.map(cat => (
@@ -878,7 +880,7 @@ function DMVResourcesDC({ d }) {
       <div>
         <Eyebrow text="Washington DC — All 8 Wards" color="#1E40AF" />
         <h2 style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 4px" }}>DC Mental Health Resources</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>
           Crisis lines, community mental health centers, DC DPR free wellness programming, peer support groups, and faith-based resources.
           Ward 7 and Ward 8 resources are highlighted — the most underserved areas east of the Anacostia.
         </p>
@@ -897,7 +899,7 @@ function DMVResourcesMD({ d }) {
       <div>
         <Eyebrow text="Maryland — PG County, Montgomery County, Statewide" color="#991B1B" />
         <h2 style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Maryland Mental Health Resources</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>
           Crisis lines, community mental health centers, peer support groups, and regional data sources.
           Prince George's County is highlighted as the most underserved large county in the DMV.
         </p>
@@ -916,7 +918,7 @@ function DMVResourcesVA({ d }) {
       <div>
         <Eyebrow text="Virginia — Northern VA, Statewide, Rural Southwest" color="#065F46" />
         <h2 style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 4px" }}>Virginia Mental Health Resources</h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>
           Crisis lines including REACH VA, Community Services Boards, peer support, and regional data sources.
           91% of Virginia localities are designated MH shortage areas — the most acute provider desert in the region.
         </p>
@@ -938,8 +940,8 @@ function DMVDatasets({ d }) {
     if (s==="Virginia") return "#065F46";
     return "#5B21B6";
   }
-  const thS = { padding:"8px 12px", textAlign:"left", fontSize:10, fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
-  const tds = { padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:12, fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"8px 12px", fontSize:14, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
   return (
     <section aria-labelledby="dmv-ds-h">
       <Eyebrow text="12 regional data sources covering DC, Maryland, and Virginia" color="#5B21B6" />
@@ -1042,8 +1044,8 @@ function WardOverview({ wards }) {
   const depDesc  = depressionChartData.map(r => `${r.ward}: ${r.rate}%`).join(", ");
   const povDesc  = povertyChartData.map(r => `${r.ward}: ${r.pov}%`).join(", ");
   const insDesc  = uninsuredChartData.map(r => `${r.ward}: ${r.rate}%`).join(", ");
-  const thS = { padding:"8px 12px", textAlign:"left", fontSize:11, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
-  const tds = { padding:"8px 12px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"middle" };
+  const thS = { padding:"8px 12px", textAlign:"left", fontSize:15, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
+  const tds = { padding:"8px 12px", fontSize:14, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"middle" };
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
 
@@ -1051,7 +1053,7 @@ function WardOverview({ wards }) {
         <h2 id="ward-ov-h" style={{ fontSize:18, fontWeight:700, color:T.text, margin:"0 0 6px" }}>
           All 8 Wards — Comparative Mental Health Data
         </h2>
-        <p style={{ fontSize:13, color:T.textMut, margin:"0 0 20px" }}>
+        <p style={{ fontSize:15, color:T.textMut, margin:"0 0 20px" }}>
           Ward 8 has a 63% higher depression rate than Ward 3, yet the fewest providers per capita and the highest poverty rate.
           The Anacostia River is a literal dividing line between the city's best-served and worst-served mental health communities.
           Sources: DC BRFSS / DC DOH, DC KIDS COUNT, DC Fiscal Policy Institute, OurHealthyDC.org.
@@ -1059,12 +1061,12 @@ function WardOverview({ wards }) {
 
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:18 }}>
           <div>
-            <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#991B1B", margin:"0 0 8px" }}>Depression Diagnosis Rate by Ward</p>
+            <p style={{ fontSize:15, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#991B1B", margin:"0 0 8px" }}>Depression Diagnosis Rate by Ward</p>
             <div role="img" aria-label={`Bar chart: depression rate by ward, sorted high to low. ${depDesc}`}>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={depressionChartData} layout="vertical" barSize={18} margin={{left:10,right:30}}>
-                  <XAxis type="number" tick={{fill:T.textMut,fontSize:10}} tickFormatter={v=>`${v}%`} domain={[0,30]}/>
-                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:12}} width={58}/>
+                  <XAxis type="number" tick={{fill:T.textMut,fontSize:12}} tickFormatter={v=>`${v}%`} domain={[0,30]}/>
+                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:14}} width={58}/>
                   <Tooltip content={<ChartTip/>}/>
                   <Bar dataKey="rate" name="Depression rate" radius={[0,4,4,0]}>{depressionChartData.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
                 </BarChart>
@@ -1073,12 +1075,12 @@ function WardOverview({ wards }) {
           </div>
 
           <div>
-            <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#92400E", margin:"0 0 8px" }}>Poverty Rate by Ward</p>
+            <p style={{ fontSize:15, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#92400E", margin:"0 0 8px" }}>Poverty Rate by Ward</p>
             <div role="img" aria-label={`Bar chart: poverty rate by ward. ${povDesc}`}>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={povertyChartData} layout="vertical" barSize={18} margin={{left:10,right:30}}>
-                  <XAxis type="number" tick={{fill:T.textMut,fontSize:10}} tickFormatter={v=>`${v}%`} domain={[0,35]}/>
-                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:12}} width={58}/>
+                  <XAxis type="number" tick={{fill:T.textMut,fontSize:12}} tickFormatter={v=>`${v}%`} domain={[0,35]}/>
+                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:14}} width={58}/>
                   <Tooltip content={<ChartTip/>}/>
                   <Bar dataKey="pov" name="Poverty rate" radius={[0,4,4,0]}>{povertyChartData.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
                 </BarChart>
@@ -1087,12 +1089,12 @@ function WardOverview({ wards }) {
           </div>
 
           <div>
-            <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#5B21B6", margin:"0 0 8px" }}>Uninsured Rate by Ward</p>
+            <p style={{ fontSize:15, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#5B21B6", margin:"0 0 8px" }}>Uninsured Rate by Ward</p>
             <div role="img" aria-label={`Bar chart: uninsured rate by ward. ${insDesc}`}>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={uninsuredChartData} layout="vertical" barSize={18} margin={{left:10,right:30}}>
-                  <XAxis type="number" tick={{fill:T.textMut,fontSize:10}} tickFormatter={v=>`${v}%`} domain={[0,22]}/>
-                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:12}} width={58}/>
+                  <XAxis type="number" tick={{fill:T.textMut,fontSize:12}} tickFormatter={v=>`${v}%`} domain={[0,22]}/>
+                  <YAxis type="category" dataKey="ward" tick={{fill:T.textSub,fontSize:14}} width={58}/>
                   <Tooltip content={<ChartTip/>}/>
                   <Bar dataKey="rate" name="Uninsured rate" radius={[0,4,4,0]}>{uninsuredChartData.map((r,i)=><Cell key={i} fill={r.fill}/>)}</Bar>
                 </BarChart>
@@ -1125,7 +1127,7 @@ function WardOverview({ wards }) {
               {wards.map(w => (
                 <tr key={w.number} style={{ background: w.severity==="critical"||w.severity==="high" ? "#FFF5F5" : T.bg }}>
                   <td style={{ ...tds, fontWeight:700 }}>{w.name}</td>
-                  <td style={{ ...tds, fontSize:11, maxWidth:200 }}>{w.neighborhoods.split(",").slice(0,3).join(", ")}{w.neighborhoods.split(",").length > 3 ? " + more" : ""}</td>
+                  <td style={{ ...tds, fontSize:15, maxWidth:200 }}>{w.neighborhoods.split(",").slice(0,3).join(", ")}{w.neighborhoods.split(",").length > 3 ? " + more" : ""}</td>
                   <td style={tds}>{w.population}</td>
                   <td style={tds}>{w.pctBlack}</td>
                   <td style={{ ...tds, fontFamily:"monospace" }}>{w.medianIncome}</td>
@@ -1153,94 +1155,130 @@ function WardOverview({ wards }) {
  *   4. Render app opportunity callout box.
  * 508: Sections have aria-labelledby; resource tables have th scope="col".
  */
+/*
+ * WardResourceSection — table of resources for one category within a ward.
+ * PSEUDO-CODE:
+ *   Render section heading with accent bar, then a table with 5 columns.
+ *   FOR each resource item: render a row with name (linked if url), type, cost tag, phone, notes.
+ * 508: th scope="col" on all headers. ExtLink announces new-tab. Cost uses Tag (text not color alone).
+ * NOTE: Must be defined OUTSIDE WardDetail — React remounts components defined inside
+ *       other components on every render, causing crashes and lost state.
+ */
+var WARD_THS = { padding:"8px 12px", textAlign:"left", fontSize:15, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:"#475569", borderBottom:"2px solid #E2E8F0", background:"#F1F5F9", whiteSpace:"nowrap" };
+var WARD_TDS = { padding:"9px 12px", fontSize:15, color:"#1E293B", borderBottom:"1px solid #E2E8F0", verticalAlign:"top" };
+
+function WardResourceSection({ wardNumber, title, items, accent }) {
+  const headId = "wrs-" + wardNumber + "-" + title.replace(/[^a-zA-Z0-9]/g, "-");
+  return (
+    <section aria-labelledby={headId} style={{ marginBottom:22 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:10 }}>
+        <div style={{ width:4, height:20, background:accent, borderRadius:2, flexShrink:0 }} aria-hidden="true" />
+        <h3 id={headId} style={{ fontSize:15, fontWeight:700, color:"#0F172A", margin:0 }}>{title}</h3>
+      </div>
+      <div style={{ overflowX:"auto" }}>
+        <table style={{ width:"100%", borderCollapse:"collapse", background:"#FFFFFF" }}>
+          <thead>
+            <tr>
+              <th scope="col" style={WARD_THS}>Resource</th>
+              <th scope="col" style={WARD_THS}>Type</th>
+              <th scope="col" style={WARD_THS}>Cost</th>
+              <th scope="col" style={WARD_THS}>Phone</th>
+              <th scope="col" style={WARD_THS}>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, i) => (
+              <tr key={i}>
+                <td style={{ ...WARD_TDS, fontWeight:600, minWidth:160 }}>
+                  {item.url ? <ExtLink href={item.url}>{item.name}</ExtLink> : item.name}
+                </td>
+                <td style={{ ...WARD_TDS, minWidth:120 }}>{item.type}</td>
+                <td style={{ ...WARD_TDS, whiteSpace:"nowrap" }}>
+                  <Tag color={
+                    item.cost === "Free" || item.cost === "FREE" ? "#065F46" :
+                    item.cost.toLowerCase().includes("sliding") ? "#1E40AF" : "#92400E"
+                  }>{item.cost}</Tag>
+                </td>
+                <td style={{ ...WARD_TDS, fontFamily:"monospace", whiteSpace:"nowrap", fontSize:14 }}>{item.phone || "—"}</td>
+                <td style={{ ...WARD_TDS, fontSize:14, lineHeight:1.55, minWidth:220 }}>{item.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+/*
+ * WardDetail — full deep-dive card for a single ward.
+ * PSEUDO-CODE:
+ *   1. Compute accent color from ward.severity.
+ *   2. Render ward name + severity tag + full neighborhood list.
+ *   3. Render 10-tile stats grid (population, income, poverty, depression, etc.).
+ *   4. Render context narrative box.
+ *   5. Render three WardResourceSection components (MH providers, DPR, peer/faith).
+ *   6. Render app opportunity callout.
+ * 508: article with aria-label; h2 for ward name; h3s inside sections; all tables in WardResourceSection.
+ */
 function WardDetail({ ward }) {
   const sc = severityColor(ward.severity);
-  const thS = { padding:"7px 10px", textAlign:"left", fontSize:10, fontWeight:700, letterSpacing:"0.06em", textTransform:"uppercase", color:T.textMut, borderBottom:"2px solid "+T.border, background:T.bgSub, whiteSpace:"nowrap" };
-  const tds = { padding:"7px 10px", fontSize:12, color:T.textSub, borderBottom:"1px solid "+T.border, verticalAlign:"top" };
-
-  function ResourceSection({ title, items, accent }) {
-    return (
-      <section aria-labelledby={`ward${ward.number}-${title.replace(/\s/g,"-")}`} style={{ marginBottom:20 }}>
-        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-          <div style={{ width:4, height:18, background:accent, borderRadius:2 }} aria-hidden="true" />
-          <h3 id={`ward${ward.number}-${title.replace(/\s/g,"-")}`} style={{ fontSize:14, fontWeight:700, color:T.text, margin:0 }}>{title}</h3>
-        </div>
-        <div style={{ overflowX:"auto" }}>
-          <table style={{ width:"100%", borderCollapse:"collapse", background:T.bg }}>
-            <thead><tr>
-              <th scope="col" style={thS}>Resource</th>
-              <th scope="col" style={thS}>Type</th>
-              <th scope="col" style={thS}>Cost</th>
-              <th scope="col" style={thS}>Phone</th>
-              <th scope="col" style={thS}>Notes</th>
-            </tr></thead>
-            <tbody>{items.map((item,i) => (
-              <tr key={i}><td style={{ ...tds, fontWeight:600 }}>
-                {item.url ? <ExtLink href={item.url}>{item.name}</ExtLink> : item.name}
-              </td>
-              <td style={tds}>{item.type}</td>
-              <td style={tds}><Tag color={item.cost==="Free"||item.cost==="FREE"?"#065F46":item.cost.includes("sliding")?"#1E40AF":"#92400E"}>{item.cost}</Tag></td>
-              <td style={{ ...tds, fontFamily:"monospace", whiteSpace:"nowrap" }}>{item.phone||"—"}</td>
-              <td style={{ ...tds, fontSize:11 }}>{item.notes}</td>
-              </tr>
-            ))}</tbody>
-          </table>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <article aria-label={`${ward.name} detailed mental health profile`}
-      style={{ background:T.bgCard, border:"1px solid "+T.border, borderRadius:14, padding:24, borderLeft:"6px solid "+sc }}>
-
-      {/* Ward header */}
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16, flexWrap:"wrap", gap:12 }}>
-        <div>
-          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
-            <h2 style={{ fontSize:20, fontWeight:700, color:sc, margin:0 }}>{ward.name}</h2>
-            <Tag color={sc}>{severityLabel(ward.severity)}</Tag>
-          </div>
-          <p style={{ fontSize:12, color:T.textMut, margin:0 }}>{ward.neighborhoods}</p>
+    <article
+      aria-label={ward.name + " detailed mental health profile"}
+      style={{ background:T.bgCard, border:"1px solid "+T.border, borderRadius:14, padding:26, borderLeft:"6px solid "+sc }}
+    >
+      {/* Ward header row */}
+      <div style={{ marginBottom:18 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
+          <h2 style={{ fontSize:22, fontWeight:700, color:sc, margin:0 }}>{ward.name}</h2>
+          <Tag color={sc}>{severityLabel(ward.severity)}</Tag>
         </div>
+        <p style={{ fontSize:15, color:T.textMut, margin:0, lineHeight:1.5 }}>
+          <strong style={{ color:T.textSub }}>Neighborhoods:</strong> {ward.neighborhoods}
+        </p>
       </div>
 
-      {/* Key stats grid */}
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:10, marginBottom:16 }}>
+      {/* 10-tile stats grid */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:10, marginBottom:18 }}>
         {[
-          { label:"Population",         value:ward.population },
-          { label:"Black residents",     value:ward.pctBlack },
-          { label:"Median income",       value:ward.medianIncome },
-          { label:"Poverty rate",        value:ward.povertyRate },
-          { label:"Uninsured",           value:ward.uninsuredRate },
-          { label:"Depression rate",     value:ward.depressionRate+"%", highlight: ward.depressionRate >= 22 },
-          { label:"Poor MH days/mo",     value:ward.poorMHDays },
-          { label:"HRSA shortage",       value:ward.shortage },
-          { label:"Provider density",    value:ward.providerDensity.split(" — ")[0] },
-          { label:"Hispanic residents",  value:ward.pctHispanic },
-        ].map((s,i) => (
-          <div key={i} style={{ background:T.bgSub, borderRadius:8, padding:"8px 10px", borderTop: s.highlight ? "3px solid #991B1B" : "3px solid transparent" }}>
-            <div style={{ fontSize:11, color:T.textMut, marginBottom:3 }}>{s.label}</div>
-            <div style={{ fontSize:14, fontWeight:700, color: s.highlight ? "#991B1B" : T.text, fontFamily:"monospace" }}>{s.value}</div>
+          { label:"Population",        value:ward.population },
+          { label:"Black residents",   value:ward.pctBlack },
+          { label:"Hispanic residents",value:ward.pctHispanic },
+          { label:"Median income",     value:ward.medianIncome },
+          { label:"Poverty rate",      value:ward.povertyRate, hi: parseFloat(ward.povertyRate)>=20 },
+          { label:"Uninsured",         value:ward.uninsuredRate, hi: parseFloat(ward.uninsuredRate)>=14 },
+          { label:"Depression rate",   value:ward.depressionRate+"%", hi: ward.depressionRate>=22 },
+          { label:"Poor MH days/mo",   value:ward.poorMHDays },
+          { label:"HRSA shortage",     value:ward.shortage },
+          { label:"Provider density",  value:ward.providerDensity.split(" — ")[0] },
+        ].map((s, i) => (
+          <div key={i} style={{ background:T.bgSub, borderRadius:8, padding:"9px 11px", borderTop: s.hi ? "3px solid "+sc : "3px solid transparent" }}>
+            <div style={{ fontSize:15, color:T.textMut, marginBottom:3 }}>{s.label}</div>
+            <div style={{ fontSize:15, fontWeight:700, color: s.hi ? sc : T.text, fontFamily:"monospace", lineHeight:1.2 }}>{s.value}</div>
           </div>
         ))}
       </div>
 
-      {/* Context */}
-      <div style={{ background: sc+"10", border:"1px solid "+sc+"30", borderRadius:8, padding:"12px 14px", marginBottom:20 }}>
-        <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:sc, margin:"0 0 5px" }}>Ward Context</p>
-        <p style={{ fontSize:12, color:T.textSub, margin:0, lineHeight:1.7 }}>{ward.context}</p>
+      {/* Context box */}
+      <div style={{ background:sc+"12", border:"1px solid "+sc+"35", borderRadius:9, padding:"13px 16px", marginBottom:22 }}>
+        <p style={{ fontSize:15, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:sc, margin:"0 0 6px" }}>
+          Ward Context — Sources: DC BRFSS / DOH, DC KIDS COUNT, DC Fiscal Policy Institute, OurHealthyDC.org
+        </p>
+        <p style={{ fontSize:14, color:T.textSub, margin:0, lineHeight:1.75 }}>{ward.context}</p>
       </div>
 
-      {/* Resource tables */}
-      <ResourceSection title="Mental Health Providers" items={ward.mh_resources} accent="#1E40AF" />
-      <ResourceSection title="DC DPR Free Wellness Centers" items={ward.dpr_centers} accent="#065F46" />
-      <ResourceSection title="Peer Support & Faith-Based Resources" items={ward.peer_faith} accent="#5B21B6" />
+      {/* Resource tables — all three pass wardNumber so IDs are globally unique */}
+      <WardResourceSection wardNumber={ward.number} title="Mental Health Providers" items={ward.mh_resources} accent="#1E40AF" />
+      <WardResourceSection wardNumber={ward.number} title="DC DPR Free Wellness Centers" items={ward.dpr_centers} accent="#065F46" />
+      <WardResourceSection wardNumber={ward.number} title="Peer Support and Faith-Based Resources" items={ward.peer_faith} accent="#5B21B6" />
 
-      {/* App opportunity */}
-      <div style={{ background:"#EFF6FF", border:"1px solid #BFDBFE", borderRadius:8, padding:"12px 14px" }}>
-        <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#1E40AF", margin:"0 0 5px" }}>App Opportunity for This Ward</p>
-        <p style={{ fontSize:12, color:T.textSub, margin:0, lineHeight:1.6 }}>{ward.app_opportunity}</p>
+      {/* App opportunity box */}
+      <div style={{ background:"#EFF6FF", border:"1px solid #BFDBFE", borderRadius:9, padding:"13px 16px" }}>
+        <p style={{ fontSize:15, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:"#1E40AF", margin:"0 0 6px" }}>
+          App Opportunity for This Ward
+        </p>
+        <p style={{ fontSize:14, color:T.textSub, margin:0, lineHeight:1.7 }}>{ward.app_opportunity}</p>
       </div>
     </article>
   );
@@ -1262,7 +1300,7 @@ function WardSelector({ wards }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
       <div>
-        <p style={{ fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:T.textMut, margin:"0 0 8px" }}>
+        <p style={{ fontSize:15, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", color:T.textMut, margin:"0 0 8px" }}>
           Select a Ward — Starting with Ward 8 (Highest Need)
         </p>
         {/* Ward picker */}
@@ -1273,10 +1311,10 @@ function WardSelector({ wards }) {
             return (
               <button key={w.number} role="tab" aria-selected={on?"true":"false"}
                 onClick={() => setActive(w.number)}
-                style={{ background:on?sc:"transparent", border:"2px solid "+(on?sc:T.border), color:on?"#fff":T.textMut, borderRadius:8, padding:"6px 14px", cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
+                style={{ background:on?sc:"transparent", border:"2px solid "+(on?sc:T.border), color:on?"#fff":T.textMut, borderRadius:8, padding:"6px 14px", cursor:"pointer", fontSize:14, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
                 {w.name}
                 {(w.severity==="critical"||w.severity==="high") && (
-                  <span aria-hidden="true" style={{ marginLeft:4, fontSize:10 }}>⚠</span>
+                  <span aria-hidden="true" style={{ marginLeft:4, fontSize:12 }}>⚠</span>
                 )}
               </button>
             );
@@ -1289,7 +1327,7 @@ function WardSelector({ wards }) {
         {[["critical","#991B1B"],["high","#B91C1C"],["moderate-high","#92400E"],["moderate","#1E40AF"],["low","#065F46"]].map(([s,c]) => (
           <div key={s} style={{ display:"flex", alignItems:"center", gap:5 }}>
             <div style={{ width:10, height:10, borderRadius:2, background:c }} aria-hidden="true" />
-            <span style={{ fontSize:11, color:T.textMut }}>{severityLabel(s)}</span>
+            <span style={{ fontSize:15, color:T.textMut }}>{severityLabel(s)}</span>
           </div>
         ))}
       </div>
@@ -1348,7 +1386,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight:"100vh", background:T.bg, color:T.text, fontFamily:"'Segoe UI',Arial,sans-serif" }}>
-      <style>{`*,:after,:before{box-sizing:border-box}body{margin:0;background:#fff}*:focus-visible{outline:3px solid #1D4ED8 !important;outline-offset:2px !important}`}</style>
+      <style>{`*,:after,:before{box-sizing:border-box}body{margin:0;background:#fff;font-size:15px}*:focus-visible{outline:3px solid #1D4ED8 !important;outline-offset:2px !important}`}</style>
 
       {/* Skip navigation link — visually hidden until keyboard focus.
           PSEUDO-CODE: onFocus → snap into view. onBlur → hide again.
@@ -1368,7 +1406,7 @@ export default function App() {
         <div style={{ maxWidth:1300, margin:"0 auto" }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:16, flexWrap:"wrap", gap:12 }}>
             <div>
-              <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase", color:T.textMut, margin:"0 0 4px" }}>
+              <p style={{ fontSize:12, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase", color:T.textMut, margin:"0 0 4px" }}>
                 Mental Health Research — 2 Queries · DMV Resources · 47+ Data Sources
               </p>
               <h1 style={{ fontSize:22, fontWeight:700, color:T.text, margin:0 }}>{titles[view]}</h1>
@@ -1379,7 +1417,7 @@ export default function App() {
                   const on = view === v.id;
                   return (
                     <button key={v.id} aria-pressed={on?"true":"false"} onClick={() => switchView(v.id)}
-                      style={{ background:on?v.accent+"18":"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?v.accent:T.textMut, borderRadius:8, padding:"7px 14px", cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
+                      style={{ background:on?v.accent+"18":"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?v.accent:T.textMut, borderRadius:8, padding:"7px 14px", cursor:"pointer", fontSize:14, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
                       {v.label}
                     </button>
                   );
@@ -1436,7 +1474,7 @@ export default function App() {
             <span key={v.id} style={{ display:"flex", alignItems:"center", gap:4 }}>
               {i > 0 && <span aria-hidden="true" style={{ color:T.border, fontSize:16, lineHeight:1 }}>|</span>}
               <button aria-pressed={on?"true":"false"} onClick={() => switchView(v.id)}
-                style={{ background:on?v.accent:"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?"#fff":T.textMut, borderRadius:20, padding:"5px 12px", cursor:"pointer", fontSize:11, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
+                style={{ background:on?v.accent:"transparent", border:"2px solid "+(on?v.accent:T.border), color:on?"#fff":T.textMut, borderRadius:20, padding:"5px 12px", cursor:"pointer", fontSize:15, fontWeight:700, fontFamily:"inherit", transition:"all 0.15s" }}>
                 {v.label}
               </button>
             </span>
