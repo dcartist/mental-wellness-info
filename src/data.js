@@ -561,14 +561,14 @@ export var WARDS = [
       { name: "Unity Health Care — Petworth", type: "FQHC", cost: "Sliding scale", phone: "202-745-4300", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health in primary care; serves Ward 1 northern section" }
     ],
     dpr_centers: [
-      { name: "Lamond Riggs Community Center", phone: "202-576-8655", notes: "Free fitness and youth programs; ward boundary area" },
-      { name: "Columbia Heights Community Center", phone: "202-671-3770", notes: "Free wellness classes; large Hispanic community programming; bilingual staff" },
-      { name: "Emery Heights Community Center", phone: "202-576-8660", notes: "Free senior wellness and youth activities; Park View area" }
+      { name: "Lamond Riggs Community Center", phone: "202-576-8655", cost:"Free", url:"", notes: "Free fitness and youth programs; ward boundary area" },
+      { name: "Columbia Heights Community Center", phone: "202-671-3770", cost:"Free", url:"", notes: "Free wellness classes; large Hispanic community programming; bilingual staff" },
+      { name: "Emery Heights Community Center", phone: "202-576-8660", cost:"Free", url:"", notes: "Free senior wellness and youth activities; Park View area" }
     ],
     peer_faith: [
-      { name: "NAMI DC — Columbia Heights Support Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Spanish-language support groups run from this area; family education courses" },
-      { name: "La Clínica del Pueblo", type: "Latino MH services", phone: "202-462-4788", url: "https://www.lcdp.org/", notes: "Culturally affirming MH for Latino community; Spanish-speaking therapists; immigrant-specific services" },
-      { name: "Mount Pleasant Baptist Church", type: "Faith-based support", phone: "202-462-7535", url: "", notes: "Community counseling referrals; addiction recovery ministry; grief support" }
+      { name: "NAMI DC — Columbia Heights Support Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", cost:"Free", notes: "Spanish-language support groups run from this area; family education courses" },
+      { name: "La Clínica del Pueblo", type: "Latino MH services", phone: "202-462-4788", url: "https://www.lcdp.org/", cost:"Free", notes: "Culturally affirming MH for Latino community; Spanish-speaking therapists; immigrant-specific services" },
+      { name: "Mount Pleasant Baptist Church", type: "Faith-based support", phone: "202-462-7535", url: "", cost:"Free", url:"", notes: "Community counseling referrals; addiction recovery ministry; grief support" }
     ],
     app_opportunity: "Multilingual resource finder (Spanish first) + culturally-matched Latino provider directory is the highest-leverage opportunity. La Clínica del Pueblo is the most important unlisted resource in this ward.",
     chart_data: { depressionRank: 3, povertyRank: 4, accessRank: 4 }
@@ -597,14 +597,14 @@ export var WARDS = [
       { name: "Whitman-Walker Health — 14th Street", type: "FQHC + MH", cost: "Sliding scale", phone: "202-745-7000", url: "https://www.whitman-walker.org/", notes: "Primary LGBTQ+ affirming MH center in DC; Logan Circle location; Spanish and multilingual" }
     ],
     dpr_centers: [
-      { name: "East Dupont Circle Park", phone: "202-673-7647", notes: "Free outdoor fitness; DPR programming nearby; peer group meeting spot" },
-      { name: "Francis Recreation Center", phone: "202-673-7647", notes: "Free fitness classes; Georgetown/Foggy Bottom adjacent; DPR-run" },
-      { name: "Shaw Community Center", phone: "202-673-7647", notes: "Free youth and senior programming; serves the lower-income Shaw subpopulation" }
+      { name: "East Dupont Circle Park", phone: "202-673-7647", cost:"Free", url:"", notes: "Free outdoor fitness; DPR programming nearby; peer group meeting spot" },
+      { name: "Francis Recreation Center", phone: "202-673-7647", cost:"Free", url:"", notes: "Free fitness classes; Georgetown/Foggy Bottom adjacent; DPR-run" },
+      { name: "Shaw Community Center", phone: "202-673-7647", cost:"Free", url:"", notes: "Free youth and senior programming; serves the lower-income Shaw subpopulation" }
     ],
     peer_faith: [
-      { name: "DC Center for LGBT Community — Mental Health Programs", type: "Peer + Referral", phone: "202-682-2245", url: "https://thedccenter.org/", notes: "Support groups, peer counseling, referral to affirming therapists; Logan Circle area" },
-      { name: "AA — Dupont Circle Intergroup", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "High meeting density in this ward; multiple daily meetings in Dupont and Logan" },
-      { name: "Metropolitan Community Church DC", type: "Faith + affirming community", phone: "202-638-7373", url: "https://mccdc.com/", notes: "LGBTQ+ affirming faith community; grief and addiction support ministries" }
+      { name: "DC Center for LGBT Community — Mental Health Programs", type: "Peer + Referral", phone: "202-682-2245", url: "https://thedccenter.org/", cost:"Free", notes: "Support groups, peer counseling, referral to affirming therapists; Logan Circle area" },
+      { name: "AA — Dupont Circle Intergroup", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", cost:"Free", notes: "High meeting density in this ward; multiple daily meetings in Dupont and Logan" },
+      { name: "Metropolitan Community Church DC", type: "Faith + affirming community", phone: "202-638-7373", url: "https://mccdc.com/", cost:"Free", notes: "LGBTQ+ affirming faith community; grief and addiction support ministries" }
     ],
     app_opportunity: "This ward has the most providers but poorest discovery for the unhoused and lower-income Shaw population. A zero-login free resource mode would be highest value here for the underserved sub-population.",
     chart_data: { depressionRank: 5, povertyRank: 3, accessRank: 8 }
@@ -633,14 +633,14 @@ export var WARDS = [
       { name: "Abundant private practices (Tenleytown/Cleveland Park)", type: "Private clinical", cost: "Private pay / insurance", phone: "Varies", url: "https://www.psychologytoday.com/", notes: "Highest private practice density in DC; affluent population; predominantly private-pay" }
     ],
     dpr_centers: [
-      { name: "Chevy Chase Community Center", phone: "202-282-2204", notes: "Free fitness classes; senior programming; DPR-operated" },
-      { name: "Tenley-Friendship Library (adjacent programs)", phone: "202-727-1488", notes: "Free community programming; wellness events; serves Tenleytown population" },
-      { name: "Guy Mason Recreation Center", phone: "202-282-2180", notes: "Free fitness and wellness classes; serving Georgetown/Glover Park boundary" }
+      { name: "Chevy Chase Community Center", phone: "202-282-2204", cost:"Free", url:"", notes: "Free fitness classes; senior programming; DPR-operated" },
+      { name: "Tenley-Friendship Library (adjacent programs)", phone: "202-727-1488", cost:"Free", url:"", notes: "Free community programming; wellness events; serves Tenleytown population" },
+      { name: "Guy Mason Recreation Center", phone: "202-282-2180", cost:"Free", url:"", notes: "Free fitness and wellness classes; serving Georgetown/Glover Park boundary" }
     ],
     peer_faith: [
-      { name: "Iona Senior Services", type: "Senior MH + peer support", phone: "202-895-9448", url: "https://www.iona.org/", notes: "Specialized senior mental health for the large 65+ population in this ward; sliding scale" },
-      { name: "AA — Northwest DC", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "Multiple meetings in Tenleytown/Friendship Heights area" },
-      { name: "Washington National Cathedral — Counseling", type: "Faith-based", phone: "202-537-6200", url: "https://cathedral.org/", notes: "Pastoral counseling; grief support; community MH ministry" }
+      { name: "Iona Senior Services", type: "Senior MH + peer support", phone: "202-895-9448", url: "https://www.iona.org/", cost:"Free", notes: "Specialized senior mental health for the large 65+ population in this ward; sliding scale" },
+      { name: "AA — Northwest DC", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", cost:"Free", notes: "Multiple meetings in Tenleytown/Friendship Heights area" },
+      { name: "Washington National Cathedral — Counseling", type: "Faith-based", phone: "202-537-6200", url: "https://cathedral.org/", cost:"Free", notes: "Pastoral counseling; grief support; community MH ministry" }
     ],
     app_opportunity: "App opportunity here is primarily for discovery of peer support and alternative wellness (yoga, meditation) by the large wellness-oriented population. Federal employee confidentiality features would serve the substantial government workforce here.",
     chart_data: { depressionRank: 1, povertyRank: 1, accessRank: 7 }
@@ -668,14 +668,14 @@ export var WARDS = [
       { name: "DC DBH — ACCESS Helpline (referral to Ward 4 sites)", type: "Referral", cost: "Free", phone: "1-888-793-4357", url: "https://dbh.dc.gov/", notes: "DBH can direct to Ward 4 specific community MH sites; multilingual intake available" }
     ],
     dpr_centers: [
-      { name: "Brightwood Recreation Center", phone: "202-576-8656", notes: "Free fitness classes; community wellness programming; large Ward 4 hub" },
-      { name: "Takoma Recreation Center", phone: "202-576-8660", notes: "Free youth and senior programming; Brightwood Park area" },
-      { name: "North Michigan Park Community Center", phone: "202-576-8655", notes: "Free programming; Fort Totten area; underutilized resource" }
+      { name: "Brightwood Recreation Center", phone: "202-576-8656", cost:"Free", url:"", notes: "Free fitness classes; community wellness programming; large Ward 4 hub" },
+      { name: "Takoma Recreation Center", phone: "202-576-8660", cost:"Free", url:"", notes: "Free youth and senior programming; Brightwood Park area" },
+      { name: "North Michigan Park Community Center", phone: "202-576-8655", cost:"Free", url:"", notes: "Free programming; Fort Totten area; underutilized resource" }
     ],
     peer_faith: [
-      { name: "NAMI DC — Northwest Support Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Support groups serving Ward 4 residents; family education programs" },
-      { name: "Brightwood Baptist Church area faith network", type: "Faith-based", phone: "Varies", url: "", notes: "Multiple HBCU-affiliated and historic Black churches in Brightwood and Shepherd Park run informal counseling and grief ministries" },
-      { name: "AA — Ward 4 meetings", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "Daily meetings in Brightwood and Petworth areas" }
+      { name: "NAMI DC — Northwest Support Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", cost:"Free", notes: "Support groups serving Ward 4 residents; family education programs" },
+      { name: "Brightwood Baptist Church area faith network", type: "Faith-based", phone: "Varies", url: "", cost:"Free", url:"", notes: "Multiple HBCU-affiliated and historic Black churches in Brightwood and Shepherd Park run informal counseling and grief ministries" },
+      { name: "AA — Ward 4 meetings", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", cost:"Free", notes: "Daily meetings in Brightwood and Petworth areas" }
     ],
     app_opportunity: "Provider gap vs. need gap is most visible in Ward 4 — above-average need but below-average supply. App opportunity for DPR wellness discovery and faith-based resource listing. Middle-income Black residents here are underrepresented in all existing directories.",
     chart_data: { depressionRank: 4, povertyRank: 3, accessRank: 4 }
@@ -704,14 +704,14 @@ export var WARDS = [
       { name: "Unity Health Care — Brookland", type: "FQHC", cost: "Sliding scale", phone: "202-745-4300", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health; serves Brookland and Woodridge" }
     ],
     dpr_centers: [
-      { name: "Arboretum Community Center", phone: "202-576-8655", notes: "Free fitness; youth programs; Edgewood area" },
-      { name: "Turkey Thicket Recreation Center", phone: "202-576-8664", notes: "Free wellness programming; Brookland/Michigan Park; underutilized" },
-      { name: "Trinidad Recreation Center", phone: "202-576-8660", notes: "Critical free resource in one of the most underserved sub-areas; free youth programs" }
+      { name: "Arboretum Community Center", phone: "202-576-8655", cost:"Free", url:"", notes: "Free fitness; youth programs; Edgewood area" },
+      { name: "Turkey Thicket Recreation Center", phone: "202-576-8664", cost:"Free", url:"", notes: "Free wellness programming; Brookland/Michigan Park; underutilized" },
+      { name: "Trinidad Recreation Center", phone: "202-576-8660", cost:"Free", url:"", notes: "Critical free resource in one of the most underserved sub-areas; free youth programs" }
     ],
     peer_faith: [
-      { name: "NAMI DC — Northeast Chapter", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Support groups serving Ward 5 and northeast DC" },
-      { name: "Brookland-area Black churches", type: "Faith-based", phone: "Varies", url: "", notes: "Multiple historic Black churches in Brookland and Brentwood run grief ministries and addiction recovery programs; not listed in any directory" },
-      { name: "NA — Ward 5 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", notes: "Daily NA meetings in Brentwood and Brookland areas; free; open access" }
+      { name: "NAMI DC — Northeast Chapter", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", cost:"Free", notes: "Support groups serving Ward 5 and northeast DC" },
+      { name: "Brookland-area Black churches", type: "Faith-based", phone: "Varies", url: "", cost:"Free", url:"", notes: "Multiple historic Black churches in Brookland and Brentwood run grief ministries and addiction recovery programs; not listed in any directory" },
+      { name: "NA — Ward 5 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", cost:"Free", notes: "Daily NA meetings in Brentwood and Brookland areas; free; open access" }
     ],
     app_opportunity: "Displacement stress and gentrification anxiety are specific MH drivers not served by existing app frameworks. An app that lists tenant rights resources alongside MH resources could serve this ward's unique needs. Trinidad and Ivy City are the highest-priority sub-areas.",
     chart_data: { depressionRank: 6, povertyRank: 5, accessRank: 3 }
@@ -739,14 +739,14 @@ export var WARDS = [
       { name: "Unity Health Care — Southeast", type: "FQHC", cost: "Sliding scale", phone: "202-745-4300", url: "https://unityhealthcare.org/", notes: "Integrated behavioral health; serves Near SE and Southwest populations" }
     ],
     dpr_centers: [
-      { name: "Eastern Market Recreation Center", phone: "202-673-7647", notes: "Free fitness and wellness classes; Capitol Hill area; well-attended" },
-      { name: "Randall Recreation Center (SW)", phone: "202-645-7940", notes: "Free youth and senior programs; Southwest community; underutilized" },
-      { name: "Garfield Park", phone: "202-673-7647", notes: "DPR outdoor programming; Capitol Hill area; yoga and fitness events" }
+      { name: "Eastern Market Recreation Center", phone: "202-673-7647", cost:"Free", url:"", notes: "Free fitness and wellness classes; Capitol Hill area; well-attended" },
+      { name: "Randall Recreation Center (SW)", phone: "202-645-7940", cost:"Free", url:"", notes: "Free youth and senior programs; Southwest community; underutilized" },
+      { name: "Garfield Park", phone: "202-673-7647", cost:"Free", url:"", notes: "DPR outdoor programming; Capitol Hill area; yoga and fitness events" }
     ],
     peer_faith: [
-      { name: "Capitol Hill Group Ministry — outreach", type: "Faith-based integrated", phone: "202-543-9122", url: "https://www.caphillgroupministry.org/", notes: "Faith coalition providing food, MH referrals, and community support to lower-income Ward 6 residents" },
-      { name: "NAMI DC — Southeast Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", notes: "Support groups for Ward 6 and adjacent areas" },
-      { name: "AA — Capitol Hill / Southeast meetings", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", notes: "Multiple meetings near Eastern Market and Navy Yard; daily schedule" }
+      { name: "Capitol Hill Group Ministry — outreach", type: "Faith-based integrated", phone: "202-543-9122", url: "https://www.caphillgroupministry.org/", cost:"Free", notes: "Faith coalition providing food, MH referrals, and community support to lower-income Ward 6 residents" },
+      { name: "NAMI DC — Southeast Groups", type: "Peer support", phone: "202-546-0646", url: "https://namidc.org/", cost:"Free", notes: "Support groups for Ward 6 and adjacent areas" },
+      { name: "AA — Capitol Hill / Southeast meetings", type: "Peer support", phone: "202-966-9115", url: "https://www.aa-dc.org/", cost:"Free", notes: "Multiple meetings near Eastern Market and Navy Yard; daily schedule" }
     ],
     app_opportunity: "Near Southeast and Buzzard Point are the highest-need sub-areas with near-zero app presence. The combination of new Navy Yard residents (wellness-oriented, would use an app) and existing lower-income residents (who need free resources) creates an opportunity for a two-tier app experience in one ward.",
     chart_data: { depressionRank: 5, povertyRank: 4, accessRank: 5 }
@@ -775,14 +775,14 @@ export var WARDS = [
       { name: "Community Connections — Ward 7 sites", type: "Clinical + Peer", cost: "Sliding scale", phone: "202-745-5947", url: "https://communityconnectionsdc.org/", notes: "Trauma-informed; DBH-funded; serves the most acute MH needs in Ward 7" }
     ],
     dpr_centers: [
-      { name: "Ferebee Hope Recreation Center", phone: "202-576-8655", notes: "FREE — Ward 7's primary DPR hub; youth programming, mentorship, free wellness classes; walk-in welcome; critically underused because no directory exists for it" },
-      { name: "Deanwood Recreation Center", phone: "202-576-8558", notes: "FREE — Free fitness classes, senior activities, youth programs; Deanwood area; open daily" },
-      { name: "Capitol View Recreation Center", phone: "202-576-8656", notes: "FREE — Free programming; Capitol View / Marshall Heights; free to all Ward 7 residents" }
+      { name: "Ferebee Hope Recreation Center", phone: "202-576-8655", cost:"Free", url:"", notes: "FREE — Ward 7's primary DPR hub; youth programming, mentorship, free wellness classes; walk-in welcome; critically underused because no directory exists for it" },
+      { name: "Deanwood Recreation Center", phone: "202-576-8558", cost:"Free", url:"", notes: "FREE — Free fitness classes, senior activities, youth programs; Deanwood area; open daily" },
+      { name: "Capitol View Recreation Center", phone: "202-576-8656", cost:"Free", url:"", notes: "FREE — Free programming; Capitol View / Marshall Heights; free to all Ward 7 residents" }
     ],
     peer_faith: [
-      { name: "Ward 7 Black church network (informal)", type: "Faith-based peer support", phone: "Via DBH outreach", url: "https://dbh.dc.gov/", notes: "CRITICAL RESOURCE: Dozens of historically Black churches in Deanwood, Benning Heights, and Capitol View run grief ministries, addiction recovery, and informal counseling. None are listed in any existing directory. This is the largest untapped MH resource in the ward." },
-      { name: "Narcotics Anonymous — Ward 7 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", notes: "Free daily NA meetings in Deanwood and Marshall Heights; open access; no sign-up" },
-      { name: "Ward 7 Democrats / ANC outreach", type: "Community navigation", phone: "Via ANC 7B/7C", url: "https://anc.dc.gov/", notes: "ANCs coordinate community resource sharing; can connect residents to unlisted MH referral networks" }
+      { name: "Ward 7 Black church network (informal)", type: "Faith-based peer support", phone: "Via DBH outreach", url: "https://dbh.dc.gov/", cost:"Free", notes: "CRITICAL RESOURCE: Dozens of historically Black churches in Deanwood, Benning Heights, and Capitol View run grief ministries, addiction recovery, and informal counseling. None are listed in any existing directory. This is the largest untapped MH resource in the ward." },
+      { name: "Narcotics Anonymous — Ward 7 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", cost:"Free", notes: "Free daily NA meetings in Deanwood and Marshall Heights; open access; no sign-up" },
+      { name: "Ward 7 Democrats / ANC outreach", type: "Community navigation", phone: "Via ANC 7B/7C", url: "https://anc.dc.gov/", cost:"Free", notes: "ANCs coordinate community resource sharing; can connect residents to unlisted MH referral networks" }
     ],
     app_opportunity: "Ward 7 has the single highest untapped app opportunity in the entire DMV. The gap between existing resources (DPR centers, Black churches, NA meetings) and discoverable resources (virtually zero — none listed in any existing directory) is the widest in the region. An app that maps faith-based, DPR, and peer resources in Ward 7 would serve approximately 80,000 residents who currently have no unified resource discovery tool.",
     chart_data: { depressionRank: 7, povertyRank: 7, accessRank: 2 }
@@ -812,16 +812,16 @@ export var WARDS = [
       { name: "So Others Might Eat (SOME) — MH + Integrated Care", type: "Integrated care", cost: "Free", phone: "202-797-8806", url: "https://some.org/", notes: "MH integrated with housing, food, and addiction services; serving the unhoused and most vulnerable Ward 8 residents" }
     ],
     dpr_centers: [
-      { name: "Anacostia Community Recreation Center", phone: "202-645-0510", notes: "FREE — Ward 8's largest DPR hub; free fitness, yoga, youth programs, senior activities; walk-in welcome; directly across from Anacostia Metro; CRITICAL UNLISTED RESOURCE" },
-      { name: "Fort Stanton Recreation Center", phone: "202-645-0573", notes: "FREE — One of the most important free wellness resources in Congress Heights; free classes including fitness and creative arts; massively underutilized due to zero directory listing" },
-      { name: "Sherwood Recreation Center", phone: "202-645-0550", notes: "FREE — Barry Farm adjacent; free programming; one of the only safe indoor spaces for youth in this sub-area" },
-      { name: "Congress Heights Community Training & Wellness Center", phone: "202-645-0559", notes: "FREE — Congress Heights; free wellness programming; community-organized health events; key faith-community partnership site" }
+      { name: "Anacostia Community Recreation Center", phone: "202-645-0510", cost:"Free", url:"", notes: "FREE — Ward 8's largest DPR hub; free fitness, yoga, youth programs, senior activities; walk-in welcome; directly across from Anacostia Metro; CRITICAL UNLISTED RESOURCE" },
+      { name: "Fort Stanton Recreation Center", phone: "202-645-0573", cost:"Free", url:"", notes: "FREE — One of the most important free wellness resources in Congress Heights; free classes including fitness and creative arts; massively underutilized due to zero directory listing" },
+      { name: "Sherwood Recreation Center", phone: "202-645-0550", cost:"Free", url:"", notes: "FREE — Barry Farm adjacent; free programming; one of the only safe indoor spaces for youth in this sub-area" },
+      { name: "Congress Heights Community Training & Wellness Center", phone: "202-645-0559", cost:"Free", url:"", notes: "FREE — Congress Heights; free wellness programming; community-organized health events; key faith-community partnership site" }
     ],
     peer_faith: [
-      { name: "Ward 8 Black church grief and recovery network (informal)", type: "Faith-based — CRITICAL", phone: "Via DBH", url: "https://dbh.dc.gov/", notes: "THE most robust MH resource in Ward 8. Dozens of historically Black congregations in Anacostia, Congress Heights, and Washington Highlands run grief ministries, addiction recovery, food pantries, and community counseling. Examples: Covenant Baptist, Randle Highlands Baptist, St. Teresa of Avila. NONE are listed in any existing directory — the single biggest directory gap in DC." },
-      { name: "Narcotics Anonymous — Ward 8 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", notes: "Free daily NA meetings in Anacostia and Congress Heights; open access; no requirement to be sober to attend first meeting" },
-      { name: "Congress Heights Arts & Culture Center", type: "Creative therapy + community", phone: "202-610-9850", url: "https://www.congressheightsarts.org/", notes: "Free arts programming; therapeutic community activities; adjacent to Fort Stanton rec center; evidence-based creative therapy pathway" },
-      { name: "Ward 8 Business Council / Community organizations", type: "Community navigation", phone: "202-645-0559", url: "", notes: "Local Ward 8 civic organizations often maintain informal resource networks; ANC 8C/8D can connect residents to unlisted MH referral pathways" }
+      { name: "Ward 8 Black church grief and recovery network (informal)", type: "Faith-based — CRITICAL", phone: "Via DBH", url: "https://dbh.dc.gov/", cost:"Free", notes: "THE most robust MH resource in Ward 8. Dozens of historically Black congregations in Anacostia, Congress Heights, and Washington Highlands run grief ministries, addiction recovery, food pantries, and community counseling. Examples: Covenant Baptist, Randle Highlands Baptist, St. Teresa of Avila. NONE are listed in any existing directory — the single biggest directory gap in DC." },
+      { name: "Narcotics Anonymous — Ward 8 meetings", type: "Peer support", phone: "202-399-5316", url: "https://dcna.org/", cost:"Free", notes: "Free daily NA meetings in Anacostia and Congress Heights; open access; no requirement to be sober to attend first meeting" },
+      { name: "Congress Heights Arts & Culture Center", type: "Creative therapy + community", phone: "202-610-9850", url: "https://www.congressheightsarts.org/", cost:"Free", notes: "Free arts programming; therapeutic community activities; adjacent to Fort Stanton rec center; evidence-based creative therapy pathway" },
+      { name: "Ward 8 Business Council / Community organizations", type: "Community navigation", phone: "202-645-0559", url: "", cost:"Free", url:"", notes: "Local Ward 8 civic organizations often maintain informal resource networks; ANC 8C/8D can connect residents to unlisted MH referral pathways" }
     ],
     app_opportunity: "Ward 8 is the #1 priority target for an MH resource app in the entire DC region. The combination of highest need (25.9% depression, 30% poverty, 18% uninsured), critical provider shortage, and a large body of completely undiscoverable resources (4 DPR rec centers, dozens of Black church ministries, daily NA meetings, SOME, community arts centers) creates the most acute directory gap anywhere in the DMV. An app that lists nothing but Ward 8's existing unlisted resources would represent a significant public health intervention.",
     chart_data: { depressionRank: 8, povertyRank: 8, accessRank: 1 }

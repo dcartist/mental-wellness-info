@@ -1195,9 +1195,9 @@ function WardResourceSection({ wardNumber, title, items, accent }) {
                 <td style={{ ...WARD_TDS, minWidth:120 }}>{item.type}</td>
                 <td style={{ ...WARD_TDS, whiteSpace:"nowrap" }}>
                   <Tag color={
-                    item.cost === "Free" || item.cost === "FREE" ? "#065F46" :
-                    item.cost.toLowerCase().includes("sliding") ? "#1E40AF" : "#92400E"
-                  }>{item.cost}</Tag>
+                    !item.cost || item.cost === "Free" || item.cost === "FREE" ? "#065F46" :
+                    (item.cost||"").toLowerCase().includes("sliding") ? "#1E40AF" : "#92400E"
+                  }>{item.cost || "Free"}</Tag>
                 </td>
                 <td style={{ ...WARD_TDS, fontFamily:"monospace", whiteSpace:"nowrap", fontSize:14 }}>{item.phone || "—"}</td>
                 <td style={{ ...WARD_TDS, fontSize:14, lineHeight:1.55, minWidth:220 }}>{item.notes}</td>
